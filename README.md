@@ -39,11 +39,13 @@ Ensure you have the following installed on your system:
 3. **Configure environment variables**
    Create a `.env` file in the root directory and add the following:
    ```env
-   PORT=3000
-   DB_HOST=localhost
-   DB_USER=root
-   DB_PASSWORD=yourpassword
-   DB_NAME=mydatabase
+    PORT = 3001
+    DB_HOST = 127.0.0.1
+    DB_USER = root
+    DB_PORT = 3306
+    DB_PASS = root
+    DB_NAME = TicketingBoxOffice
+    JWT_SECRET = SECRET
    ```
 
 4. **Start MariaDB and create a database**
