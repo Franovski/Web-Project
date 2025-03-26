@@ -127,7 +127,7 @@ class UserController{
         try{
             const {email, oldPassword, newPassword} = req.body;
             const user = await userService.readUserByEmail(email);
-            const result = await userService.changePassword(user, oldPassword, newPassword);
+            const result = await userService.changePassword(email, oldPassword, newPassword);
             return res.status(200).json({message: `password changed successfully`, result: result});
         }catch(err){
             console.error("Error in UserController.changePassword: ", err.message);

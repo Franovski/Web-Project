@@ -17,8 +17,8 @@ router.get('/email/:email', validateUserByEmail, UserController.readUserByEmail)
 router.get('/passByEmail/:email', validateUserByEmail, UserController.getPasswordByEmail);
 router.post('/', validateUser, UserController.create);
 router.post('/login', UserController.login);
+router.put('/password/', UserController.changePassword);
 router.put('/:id', validateUserById, UserController.update);
-router.put('/password/:email', UserController.changePassword);
 router.delete('/:id', validateUserById, UserController.delete);
 
 module.exports = router;

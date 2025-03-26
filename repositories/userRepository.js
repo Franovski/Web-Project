@@ -151,7 +151,7 @@ class UserRepository{
         try {
         let sql = `SELECT * FROM user WHERE email = ?`;
         const rows = await db.query(sql,[email]);
-        return  rows.length > 0;
+        return  rows.length > 0 ? true : false;
         } catch (err) {
         throw new Error(err);
         }
@@ -165,7 +165,7 @@ class UserRepository{
             WHERE email = ?`;
             const hashedPassword = await Hashing.hashPassword(newPassword);
             const {affectedRows} = await db.query(sql, [hashedPassword, email]);
-            return {message: affectedRows > 0 ? "Password changed" : "Password change failed", affectedRows};
+            return affectedRows;
         }catch(err){
             throw new Error(err);
         }

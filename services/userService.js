@@ -289,25 +289,21 @@ class UserService {
     // Function to change the user's password
     static async changePassword(email, oldPassword, newPassword) {
         try{
-            // Fetch user and extract from array if needed
-            const users = await UserRepository.readUserByEmail(email);
-            const user = users[0]; // Extract the first user from the array
-
-            // Check if the user exists
-            if (!user) {
+            //Check if the user exists
+            if(!await UserRepository.isUserExistByEmail(email)){
                 throw new Error(`User with email ${email} does not exist`);
             }
+            const users = await UserRepository.readUserByEmail(email);
+            const user = users[0];
 
-            // Log the plain and hashed password for debugging
+             // Verify the password
+
             const hashedPassword = user.password;
-            console.log("Plain password:", oldPassword);
-            console.log("Hashed password retrieved:", hashedPassword);
-
-            // Verify the password
             const validPassword = await Hashing.comparePassword(oldPassword, hashedPassword);
             if (!validPassword) {
                 throw new Error("Old password is incorrect.");
             }
+            
             
             //return the user with the updated password
             const updatedUser = await UserRepository.changePassword(email, newPassword);
