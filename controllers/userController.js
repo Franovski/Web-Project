@@ -1,11 +1,13 @@
 const User = require('../models/userModel');
 const userService = require('../services/userService.js');
+const moment = require('moment');
 
 class UserController{
 
     static async create(req,res){
         try{
-            const {role, createdAt, firstName, lastName, email, password, phoneNbr} = req.body;
+            const {role, firstName, lastName, email, password, phoneNbr} = req.body;
+            const createdAt = moment().format('YYYY-MM-DD HH:mm:ss');
             var user = new User(0, role, createdAt, firstName, lastName, email, password, phoneNbr);
             const result = await userService.create(user);
             res.status(200).json(result);
@@ -17,7 +19,8 @@ class UserController{
 
     static async update(req,res){
         try{
-            const {role, createdAt, firstName, lastName, email, password, phoneNbr} = req.body;
+            const {role, firstName, lastName, email, password, phoneNbr} = req.body;
+            const createdAt = moment().format('YYYY-MM-DD HH:mm:ss');
             const {id} = req.params;
             var user = new User(id, role, createdAt, firstName, lastName, email, password, phoneNbr);
             const result = await userService.update(user);
@@ -100,6 +103,28 @@ class UserController{
             res.status(200).json(result);
         }catch(err){
             console.error("Error in UserController.getPasswordByEmail: ", err.message);
+            res.status(500).json(err.message);
+        }
+    }
+
+    static async readUserTickets(req,res){
+        try{
+            const {id} = req.params;
+            const result = await userService.readUserTickets(id);
+            res.status(200).json(result);
+        }catch(err){
+            console.error("Error in UserController.readUserTickets: ", err.message);
+            res.status(500).json(err.message);
+        }
+    }
+
+    static async readUserByRole(req,res){
+        try{
+            const {role} = req.params;
+            const result = await userService.readUserByRole(role);
+            res.status(200).json(result);
+        }catch(err){
+            console.error("Error in UserController.readUserByRole: ", err.message);
             res.status(500).json(err.message);
         }
     }

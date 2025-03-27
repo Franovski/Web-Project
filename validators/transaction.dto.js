@@ -6,11 +6,11 @@ const validateTransaction = [
     .withMessage('status must be Paid or Refunded')
     .notEmpty()
     .withMessage('status is required'),
-    body('transactionDate')
+    /*body('transactionDate')
     .isDate()
     .withMessage('transactionDate must be in this format: YYYY-MM-DD')
     .notEmpty()
-    .withMessage('transactionDate is required'),
+    .withMessage('transactionDate is required'),*/
     body('amount')
     .isDecimal()
     .withMessage('amount must be a decimal')

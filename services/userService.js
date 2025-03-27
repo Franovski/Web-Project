@@ -162,13 +162,41 @@ class UserService {
             const pass = await UserRepository.getPasswordByEmail(email);
             const userWithSafeBigInts = JSON.parse(
                 JSON.stringify(pass, (key, value) =>
-                typeof value === 'bigtint' ? value.toString(): value
+                typeof value === 'bigint' ? value.toString(): value
                 )
             );
 
             return userWithSafeBigInts;
         }catch(err){
         throw new Error(`Failed to read password with this ${email}`);
+        }
+    }
+
+    static async readUserTickets(id){
+        try{
+            const tickets = await UserRepository.readUserTickets(id);
+            const userWithSafeBigInts = JSON.parse(
+                JSON.stringify(tickets, (key, value) =>
+                typeof value === 'bigint' ? value.toString(): value
+                )
+            );
+            return userWithSafeBigInts;
+        }catch(err){
+            throw new Error(`Failed to read tickets with id ${id}`);
+        }
+    }
+
+    static async readUserByRole(role){
+        try{
+            const user = await UserRepository.readUserByRole(role);
+            const userWithSafeBigInts = JSON.parse(
+                JSON.stringify(user, (key, value) =>
+                typeof value === 'bigint' ? value.toString(): value
+                )
+            );
+            return userWithSafeBigInts;
+        }catch(err){
+            throw new Error(`Failed to read user with this ${role}`);
         }
     }
 

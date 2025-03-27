@@ -81,6 +81,17 @@ class EventController{
             res.status(500).json(err.message);
         }
     }
+
+    static async readEventByCategoryId(req,res){
+        try{
+            const {categoryId} = req.params;
+            const result = await eventService.readEventByCategoryId(categoryId);
+            res.status(200).json(result);
+        }catch(err){
+            console.error("Error in EventController.readEventByCategoryId: " , err.message);
+            res.status(500).json(err.message);
+        }
+    }
 }
 
 module.exports = EventController;

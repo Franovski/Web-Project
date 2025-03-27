@@ -1,11 +1,13 @@
 const Transaction = require('../models/transactionModel');
 const transactionService = require('../services/transactionService.js');
+const moment = require('moment');
 
 class TransactionController{
 
     static async create(req,res){
         try{
-            const {status, transactionDate, amount, currency, paymentMethod, refundReason, ticketId, userId} = req.body;
+            const {status, amount, currency, paymentMethod, refundReason, ticketId, userId} = req.body;
+            const transactionDate = moment().format('YYYY-MM-DD HH:mm:ss');
             var transaction = new Transaction(0, status, transactionDate, amount, currency, paymentMethod,
                 refundReason, ticketId, userId);
             const result = await transactionService.create(transaction);
@@ -18,7 +20,8 @@ class TransactionController{
 
     static async update(req,res){
         try{
-            const {status, transactionDate, amount, currency, paymentMethod, refundReason, ticketId, userId} = req.body;
+            const {status, amount, currency, paymentMethod, refundReason, ticketId, userId} = req.body;
+            const transactionDate = moment().format('YYYY-MM-DD HH:mm:ss');
             const {id} = req.params;
             var transaction = new Transaction(id, status, transactionDate, amount, currency, paymentMethod,
                 refundReason, ticketId, userId);

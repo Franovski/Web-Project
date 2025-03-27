@@ -1,11 +1,13 @@
 const Ticket = require('../models/ticketModel');
 const ticketService = require('../services/ticketService.js');
+const moment = require('moment');
 
 class TicketController {
 
     static async create(req, res) {
         try{
-            const {status, seatNumber, purchaseDate, expiryDate, qrCode, sectionId, userId, eventId} = req.body;
+            const {status, seatNumber, expiryDate, qrCode, sectionId, userId, eventId} = req.body;
+            const purchaseDate = moment().format('YYYY-MM-DD HH:mm:ss');
             var ticket = new Ticket(0, status, seatNumber, purchaseDate, expiryDate, qrCode, sectionId, userId, eventId);
             const result = await ticketService.create(ticket);
             res.status(200).json(result);
@@ -17,7 +19,8 @@ class TicketController {
 
     static async update(req, res) {
         try{
-            const {status, seatNumber, purchaseDate, expiryDate, qrCode, sectionId, userId, eventId} = req.body;
+            const {status, seatNumber, expiryDate, qrCode, sectionId, userId, eventId} = req.body;
+            const purchaseDate = moment().format('YYYY-MM-DD HH:mm:ss');
             const {id} = req.params;
             var ticket = new Ticket(id, status, seatNumber, purchaseDate, expiryDate, qrCode, sectionId, userId, eventId);
             const result = await ticketService.update(ticket);

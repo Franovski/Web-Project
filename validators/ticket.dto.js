@@ -11,14 +11,14 @@ const validateTicket = [
     .withMessage('seatNumber must be string')
     .notEmpty()
     .withMessage('seatNumber is required'),
-    body('purchaseDate')
+    /*body('purchaseDate')
     .isDate()
     .withMessage('purchaseDate must be in this format: YYYY-MM-DD')
     .notEmpty()
-    .withMessage('purchaseDate is required'),
+    .withMessage('purchaseDate is required'),*/
     body('expiryDate')
     .isDate()
-    .withMessage('expiryDate must be in this format: YYYY-MM-DD')
+    .withMessage('expiryDate must be in this format: YYYY-MM-DD HH:mm:ss')
     .notEmpty()
     .withMessage('expiryDate is required'),
     body('qrCode')

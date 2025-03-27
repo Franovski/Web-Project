@@ -95,6 +95,17 @@ class EventRepository{
         }
     }
 
+    static async readEventByCategoryId(categoryId){
+        try{
+            let sql = `SELECT * FROM event
+            WHERE category_id = ?`;
+            const rows = await db.query(sql, [categoryId]);
+            return rows.map(row => Event.fromRow(row));
+        }catch(err){
+            throw new Error(err);
+        }
+    }
+
     static async isEventExistById(id){
         try{
             let sql = `SELECT * FROM event WHERE event_id = ?`;

@@ -128,6 +128,18 @@ class EventService {
             throw new Error(`Failed to read event by status: ${err.message}`);
         }
     }
+
+    static async readEventByCategoryId(categoryId) {
+        try {
+            const result = await EventRepository.readEventByCategoryId(categoryId);
+            // If result contains BigInt values, convert them to strings
+            return JSON.parse(JSON.stringify(result, (key, value) =>
+                typeof value === 'bigint' ? value.toString() : value
+            ));
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
 }
 
 module.exports = EventService;

@@ -1,5 +1,6 @@
 const db = require('../config/db');
 const User = require('../models/userModel');
+const Ticket = require('../models/ticketModel');
 const Hashing = require('../Utils/hashing');
 const Utils = require('../Utils/utils');
 
@@ -111,6 +112,28 @@ class UserRepository{
             let sql = `SELECT password FROM user
             WHERE email = ?`;
             const rows = await db.query(sql, [email]);
+            return rows.map(row => User.fromRow(row));
+        }catch(err){
+            throw new Error(err);
+        }
+    }
+
+    static async readUserTickets(id){
+        try{
+            let sql = `SELECT * FROM ticket
+            WHERE user_id = ?`;
+            const rows = await db.query(sql, [id]);
+            return rows.map(row => Ticket.fromRow(row));
+        }catch(err){
+            throw new Error(err);
+        }
+    }
+
+    static async readUserByRole(role){
+        try{
+            let sql = `SELECT * FROM user
+            WHERE role = ?`;
+            const rows = await db.query(sql, [role]);
             return rows.map(row => User.fromRow(row));
         }catch(err){
             throw new Error(err);

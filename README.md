@@ -86,6 +86,7 @@ Ensure you have the following installed on your system:
 | GET    | /api/events/:id     | Get event by ID     |
 | GET    | /api/events/name/:name    | Get event by name     |
 | GET    | /api/events/status/:status   | Get event by status    |
+| GET    | /api/events/category/:categoryId   | Get event by category ID   |
 | POST   | /api/events/        | Create a new event  |
 | PUT    | /api/events/:id     | Update event      |
 | DELETE | /api/events/:id     | Delete event      |
