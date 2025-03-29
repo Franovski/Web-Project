@@ -87,6 +87,7 @@ Ensure you have the following installed on your system:
 | GET    | /api/events/name/:name    | Get event by name     |
 | GET    | /api/events/status/:status   | Get event by status    |
 | GET    | /api/events/category/:categoryId   | Get event by category ID   |
+| GET    | /api/events/date/:id   | Get event date by ID   |
 | POST   | /api/events/        | Create a new event  |
 | PUT    | /api/events/:id     | Update event      |
 | DELETE | /api/events/:id     | Delete event      |
@@ -139,7 +140,10 @@ Ensure you have the following installed on your system:
 | GET    | /api/users/firstName/:firstName    | Get user by first name     |
 | GET    | /api/users/lastName/:lastName    | Get user by last name     |
 | GET    | /api/users/email/:email    | Get user by email   |
-| GET    | /api/users/passByEmail/:email    | Get user by password by email    |
+| GET    | /api/users/passByEmail/:email    | Get user password by email    |
+| GET    | /api/users/ticket/:id    | Get user tickets by ID   |
+| GET    | /api/users/role/:role    | Get user by role    |
+| GET    | /api/users/roleById/:id   | Get user role by ID    |
 | POST   | /api/users/        | Create a new user  |
 | POST   | /api/users/login       | Logging in to the user  |
 | PUT    | /api/users/:id     | Update user        |

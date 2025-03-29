@@ -129,6 +129,17 @@ class UserController{
         }
     }
 
+    static async readUserRoleById(req,res){
+        try{
+            const {id} = req.params;
+            const result = await userService.readUserRoleById(id);
+            res.status(200).json(result);
+        }catch(err){
+            console.error("Error in UserController.readUserRoleById: ", err.message);
+            res.status(500).json(err.message);
+        }
+    }
+
     static async login(req,res){
         try{
             const {email, password} = req.body;

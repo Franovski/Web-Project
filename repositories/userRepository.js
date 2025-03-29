@@ -140,6 +140,17 @@ class UserRepository{
         }
     }
 
+    static async readUserRoleById(id){
+        try{
+            let sql = `SELECT role FROM user
+            WHERE user_id = ?`;
+            const rows = await db.query(sql, [id]);
+            return rows.map(row => User.fromRow(row));
+        }catch(err){
+            throw new Error(err);
+        }
+    }
+
     static async isUserExistById(id) {
         try {
         let sql = `SELECT * FROM user WHERE user_id = ?`;

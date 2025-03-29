@@ -110,6 +110,17 @@ const validateReadUserTickets = [
     }
 ]
 
+const validateUserRoleById = [
+    param('id').isInt().withMessage('The Id must be an integer'),
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({errors: errors.array()});
+        }
+        next();
+    }
+]
+
 const validateUserLogin = [
     body('email').isEmail().withMessage('The email must be a valid email'),
     body('password').isString().withMessage('The password must be a string'),
@@ -142,6 +153,7 @@ module.exports = {
     validateUserByLastName,
     validateUserByRole,
     validateReadUserTickets,
+    validateUserRoleById,
     validateUserLogin,
     validateUserChangePassword
 }

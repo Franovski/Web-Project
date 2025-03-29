@@ -200,6 +200,20 @@ class UserService {
         }
     }
 
+    static async readUserRoleById(id){
+        try{
+            const role = await UserRepository.readUserRoleById(id);
+            const userWithSafeBigInts = JSON.parse(
+                JSON.stringify(role, (key, value) =>
+                typeof value === 'bigint' ? value.toString(): value
+                )
+            );
+            return userWithSafeBigInts;
+        }catch(err){
+            throw new Error(`Failed to read user with this ${id}`);
+        }
+    }
+
     static async login(email, password) {
         try {
             // Fetch user and extract from array if needed
