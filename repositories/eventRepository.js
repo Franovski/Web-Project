@@ -106,6 +106,16 @@ class EventRepository{
         }
     }
 
+    static async readEventDateById(id){
+        try{
+            let sql = `SELECT event_date FROM event WHERE event_id = ?`;
+            const rows = await db.query(sql, [id]);
+            return rows[0].event_date;
+        }catch(err){
+            throw new Error(err);
+        }
+    }
+
     static async isEventExistById(id){
         try{
             let sql = `SELECT * FROM event WHERE event_id = ?`;

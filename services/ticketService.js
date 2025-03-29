@@ -1,24 +1,47 @@
 const TicketRepository = require('../repositories/ticketRepository');
+const EventRepository = require('../repositories/eventRepository');
 
 class TicketService {
 
-    static async create(ticket)
+    static async create(ticket) 
     {
-        try{
+        try {
+            // Validate if expiry date is after purchase date
+            if (ticket.purchaseDate > ticket.expiryDate) {
+                throw new Error("Expiry date must be after the purchase date.");
+            }
+
+            const eventDate = await EventRepository.readEventDateById(ticket.eventId);
+
+            const formattedExpiryDate = ticket.expiryDate.split('T')[0];  // Assuming ISO string
+            const formattedEventDate = eventDate.toISOString().split('T')[0];
+
+            // Validate that the expiry date matches the event date
+            if (formattedExpiryDate !== formattedEventDate) {
+                throw new Error(`Expiry date must be the same as the event date: ${formattedEventDate}`);
+            }
+
             return TicketRepository.create(ticket);
-        }catch(err){
+        } catch (err) {
             throw new Error(err);
         }
     }
 
-    static async update(ticket)
+    static async update(ticket) 
     {
-        try{
-            if(!TicketRepository.isTicketExistById(ticket.id)){
+        try {
+            // Check if the ticket exists
+            if (!await TicketRepository.isTicketExistById(ticket.id)) {
                 throw new Error(`Ticket with id ${ticket.id} does not exist`);
             }
+
+            // Validate if expiry date is after purchase date
+            if (ticket.purchaseDate > ticket.expiryDate) {
+                throw new Error("Expiry date must be after the purchase date.");
+            }
+
             return TicketRepository.update(ticket);
-        }catch(err){
+        } catch (err) {
             throw new Error(err);
         }
     }

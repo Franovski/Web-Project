@@ -92,6 +92,17 @@ class EventController{
             res.status(500).json(err.message);
         }
     }
+
+    static async readEventDateById(req,res){
+        try{
+            const {id} = req.params;
+            const result = await eventService.readEventDateById(id);
+            res.status(200).json(result);
+        }catch(err){
+            console.error("Error in EventController.readEventDateById: " , err.message);
+            res.status(500).json(err.message);
+        }
+    }
 }
 
 module.exports = EventController;

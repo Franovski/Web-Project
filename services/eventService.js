@@ -140,6 +140,24 @@ class EventService {
             throw new Error(err);
         }
     }
+
+    static async readEventDateById(id) {
+        try {
+            const eventDate = await EventRepository.readEventDateById(id);
+    
+            // Convert BigInt values to string if necessary
+            // Ensure any BigInt fields (like event ID) are converted to string
+            const eventDateString = JSON.parse(
+                JSON.stringify(eventDate, (key, value) =>
+                    typeof value === 'bigint' ? value.toString() : value
+                )
+            );
+    
+            return eventDateString;
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
 }
 
 module.exports = EventService;

@@ -21,11 +21,11 @@ const validateTicket = [
     .withMessage('expiryDate must be in this format: YYYY-MM-DD HH:mm:ss')
     .notEmpty()
     .withMessage('expiryDate is required'),
-    body('qrCode')
-    .isString()
-    .withMessage('qrCode must be string')
-    .notEmpty()
-    .withMessage('qrCode is required'),
+    //body('qrCode')
+    //.isString()
+    //.withMessage('qrCode must be string')
+    //.notEmpty()
+    //.withMessage('qrCode is required'),
     body('sectionId')
     .isInt()
     .withMessage('sectionId must be an integer')
