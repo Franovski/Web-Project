@@ -2,6 +2,20 @@ const Ticket = require("../models/sequelizedTicketModel");
 const Utils = require("../Utils/utils");
 
 class TicketRepository {
+
+  /**
+   * Creates a new ticket in the database.
+   * @param {Ticket} ticket - The ticket object to be created.
+   * @param {string} ticket.status - The status of the ticket (e.g., 'active', 'expired').
+   * @param {string} ticket.seatNumber - The seat number associated with the ticket.
+   * @param {string} ticket.purchaseDate - The purchase date of the ticket.
+   * @param {string} ticket.expiryDate - The expiry date of the ticket.
+   * @param {string} ticket.qrCode - The QR code for the ticket.
+   * @param {number} ticket.sectionId - The ID of the section associated with the ticket.
+   * @param {number} ticket.userId - The ID of the user who purchased the ticket.
+   * @param {number} ticket.eventId - The ID of the event associated with the ticket.
+   * @returns {Promise<Ticket>} The created ticket object.
+   */
   static async create(ticket) {
     try {
       const addedTicket = await Ticket.create({
@@ -20,6 +34,19 @@ class TicketRepository {
     }
   }
 
+  /**
+   * Updates an existing ticket in the database.
+   * @param {Ticket} ticket - The ticket object to be updated.
+   * @param {string} ticket.status - The status of the ticket.
+   * @param {string} ticket.seatNumber - The seat number associated with the ticket.
+   * @param {string} ticket.purchaseDate - The purchase date of the ticket.
+   * @param {string} ticket.expiryDate - The expiry date of the ticket.
+   * @param {string} ticket.qrCode - The QR code for the ticket.
+   * @param {number} ticket.sectionId - The ID of the section associated with the ticket.
+   * @param {number} ticket.userId - The ID of the user who purchased the ticket.
+   * @param {number} ticket.eventId - The ID of the event associated with the ticket.
+   * @returns {Promise<number>} The number of updated rows.
+   */
   static async update(ticket) {
     try {
       const [updated] = await Ticket.update(
@@ -43,6 +70,11 @@ class TicketRepository {
     }
   }
 
+  /**
+   * Deletes a ticket from the database.
+   * @param {number} id - The ID of the ticket to be deleted.
+   * @returns {Promise<number>} The number of deleted rows.
+   */
   static async delete(id) {
     try {
       return await Ticket.destroy({ where: { ticket_id: id } });
@@ -51,6 +83,10 @@ class TicketRepository {
     }
   }
 
+  /**
+   * Retrieves all tickets from the database.
+   * @returns {Promise<Array>} A list of all tickets.
+   */
   static async readAll() {
     try {
       return await Ticket.findAll();
@@ -59,6 +95,11 @@ class TicketRepository {
     }
   }
 
+  /**
+   * Retrieves a ticket by its ID.
+   * @param {number} id - The ID of the ticket to be fetched.
+   * @returns {Promise<Ticket|null>} The ticket object if found, or null if not found.
+   */
   static async readTicketById(id) {
     try {
       return await Ticket.findByPk(id);
@@ -67,6 +108,11 @@ class TicketRepository {
     }
   }
 
+  /**
+   * Retrieves tickets by their status.
+   * @param {string} status - The status of the ticket(s) to be fetched.
+   * @returns {Promise<Array>} A list of tickets matching the status.
+   */
   static async readTicketByStatus(status) {
     try {
       return await Ticket.findAll({ where: { ticket_status: status } });
@@ -75,6 +121,11 @@ class TicketRepository {
     }
   }
 
+  /**
+   * Checks if a ticket exists by its ID.
+   * @param {number} id - The ID of the ticket to check.
+   * @returns {Promise<boolean>} `true` if the ticket exists, otherwise `false`.
+   */
   static async isTicketExistById(id) {
     try {
       const ticket = await Ticket.findByPk(id);
@@ -84,6 +135,11 @@ class TicketRepository {
     }
   }
 
+  /**
+   * Checks if a ticket exists by its status.
+   * @param {string} status - The status of the ticket to check.
+   * @returns {Promise<boolean>} `true` if the ticket exists, otherwise `false`.
+   */
   static async isTicketExistByStatus(status) {
     try {
       const ticket = await Ticket.findOne({ where: { ticket_status: status } });

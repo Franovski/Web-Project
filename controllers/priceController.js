@@ -1,61 +1,89 @@
-const Price = require('../models/priceModel');
+const Price = require('../models/sequelizedPriceModel.js');
 const priceService = require('../services/priceService.js');
+const { Request, Response } = require('express');
 
+/**
+ * Controller for handling price-related operations.
+ */
 class PriceController {
-
-    static async create(req,res){
-        try{
-            const {ticketPrice, eventId, sectionId} = req.body;
+    /**
+     * Creates a new price entry.
+     * @param {Request} req - The request object containing price details.
+     * @param {Response} res - The response object.
+     */
+    static async create(req, res) {
+        try {
+            const { ticketPrice, eventId, sectionId } = req.body;
             var price = new Price(0, ticketPrice, eventId, sectionId);
             const result = await priceService.create(price);
             res.status(200).json(result);
-        }catch(err){
-            console.error("Error in PriceController.create: " , err.message);
+        } catch (err) {
+            console.error("Error in PriceController.create: ", err.message);
             res.status(500).json(err.message);
         }
     }
 
-    static async update(req,res){
-        try{
-            const {ticketPrice, eventId, sectionId} = req.body;
-            const {id} = req.params;
+    /**
+     * Updates an existing price entry.
+     * @param {Request} req - The request object containing updated price details.
+     * @param {Response} res - The response object.
+     */
+    static async update(req, res) {
+        try {
+            const { ticketPrice, eventId, sectionId } = req.body;
+            const { id } = req.params;
             var price = new Price(id, ticketPrice, eventId, sectionId);
             const result = await priceService.update(price);
             res.status(200).json(result);
-        }catch(err){
-            console.error("Error in PriceController.update: " , err.message);
+        } catch (err) {
+            console.error("Error in PriceController.update: ", err.message);
             res.status(500).json(err.message);
         }
     }
 
-    static async delete(req,res){
-        try{
-            const {id} = req.params;
+    /**
+     * Deletes a price entry by ID.
+     * @param {Request} req - The request object containing price ID.
+     * @param {Response} res - The response object.
+     */
+    static async delete(req, res) {
+        try {
+            const { id } = req.params;
             const result = await priceService.delete(id);
             res.status(200).json(result);
-        }catch(err){
-            console.error("Error in PriceController.delete: " , err.message);
+        } catch (err) {
+            console.error("Error in PriceController.delete: ", err.message);
             res.status(500).json(err.message);
         }
     }
 
-    static async readAll(req,res){
-        try{
+    /**
+     * Retrieves all price entries.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    static async readAll(req, res) {
+        try {
             const result = await priceService.readAll();
             res.status(200).json(result);
-        }catch(err){
-            console.error("Error in PriceController.readAll: " , err.message);
+        } catch (err) {
+            console.error("Error in PriceController.readAll: ", err.message);
             res.status(500).json(err.message);
         }
     }
 
-    static async readPriceById(req,res){
-        try{
-            const {id} = req.params;
+    /**
+     * Retrieves a price entry by ID.
+     * @param {Request} req - The request object containing price ID.
+     * @param {Response} res - The response object.
+     */
+    static async readPriceById(req, res) {
+        try {
+            const { id } = req.params;
             const result = await priceService.readPriceById(id);
             res.status(200).json(result);
-        }catch(err){
-            console.error("Error in PriceController.readPriceById: " , err.message);
+        } catch (err) {
+            console.error("Error in PriceController.readPriceById: ", err.message);
             res.status(500).json(err.message);
         }
     }

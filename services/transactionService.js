@@ -1,7 +1,15 @@
+const { Transaction } = require('sequelize');
 const TransactionRepository = require('../repositories/sequelizedTransactionRepository');
 
 class TransactionService {
 
+    /**
+     * Creates a new transaction entry.
+     * 
+     * @param {Transaction} transaction - The transaction data to be created.
+     * @returns {Promise<Transaction>} The created transaction.
+     * @throws {Error} If the creation fails.
+     */
     static async create(transaction)
     {
         try{
@@ -11,6 +19,13 @@ class TransactionService {
         }
     }
 
+    /**
+     * Updates an existing transaction entry.
+     * 
+     * @param {Transaction} transaction - The transaction data to be updated.
+     * @returns {Promise<Transaction>} The updated transaction.
+     * @throws {Error} If the transaction does not exist or the update fails.
+     */
     static async update(transaction)
     {
         try{
@@ -23,6 +38,13 @@ class TransactionService {
         }     
     }
 
+    /**
+     * Deletes a transaction entry by ID.
+     * 
+     * @param {number} id - The ID of the transaction to be deleted.
+     * @returns {Promise<void>} A promise that resolves when the transaction is deleted.
+     * @throws {Error} If the transaction does not exist or the deletion fails.
+     */
     static async delete(id)
     {
         try{
@@ -35,6 +57,12 @@ class TransactionService {
         }     
     }
 
+    /**
+     * Fetches all transaction entries.
+     * 
+     * @returns {Promise<Array>} A list of all transactions.
+     * @throws {Error} If fetching all transactions fails.
+     */
     static async readAll()
     {
         try {
@@ -54,6 +82,13 @@ class TransactionService {
         }   
     }
 
+    /**
+     * Fetches a specific transaction entry by its ID.
+     * 
+     * @param {number} id - The ID of the transaction to fetch.
+     * @returns {Promise<Transaction>} The transaction with the given ID.
+     * @throws {Error} If the transaction does not exist or the fetch fails.
+     */
     static async readTransactionById(id)
     {
         try {
@@ -79,6 +114,13 @@ class TransactionService {
         }       
     }
 
+    /**
+     * Fetches transaction entries by their status.
+     * 
+     * @param {string} status - The status of the transactions to fetch.
+     * @returns {Promise<Array>} A list of transactions with the given status.
+     * @throws {Error} If fetching transactions by status fails.
+     */
     static async readTransactionByStatus(status)
     {
         try {

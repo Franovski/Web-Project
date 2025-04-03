@@ -2,6 +2,13 @@ const EventRepository = require('../repositories/sequelizedEventRepository');
 
 class EventService {
 
+    /**
+     * Creates a new event.
+     * 
+     * @param {Event} event - The event data to be created.
+     * @returns {Promise<Event>} The created event.
+     * @throws {Error} If the creation fails.
+     */
     static async create(event)
     {
         try{
@@ -11,6 +18,13 @@ class EventService {
         }
     }
 
+    /**
+     * Updates an existing event.
+     * 
+     * @param {Event} event - The event data to be updated.
+     * @returns {Promise<Event>} The updated event.
+     * @throws {Error} If the event does not exist or the update fails.
+     */
     static async update(event)
     {
         try{
@@ -23,6 +37,13 @@ class EventService {
         }
     }
 
+    /**
+     * Deletes an event by ID.
+     * 
+     * @param {number} id - The ID of the event to be deleted.
+     * @returns {Promise<void>} A promise that resolves when the event is deleted.
+     * @throws {Error} If the event does not exist or the deletion fails.
+     */
     static async delete(id)
     {
         try{
@@ -35,6 +56,12 @@ class EventService {
         }
     }
 
+    /**
+     * Fetches all events.
+     * 
+     * @returns {Promise<Array>} A list of all events.
+     * @throws {Error} If fetching all events fails.
+     */
     static async readAll()
     {
         try {
@@ -54,6 +81,13 @@ class EventService {
         }
     }
 
+    /**
+     * Fetches a specific event by its ID.
+     * 
+     * @param {number} id - The ID of the event to fetch.
+     * @returns {Promise<Object>} The event with the given ID.
+     * @throws {Error} If the event does not exist or the fetch fails.
+     */
     static async readEventById(id)
     {
         try {
@@ -79,6 +113,13 @@ class EventService {
         }    
     }
 
+    /**
+     * Fetches a specific event by its name.
+     * 
+     * @param {string} name - The name of the event to fetch.
+     * @returns {Promise<Event>} The event with the given name.
+     * @throws {Error} If the event does not exist or the fetch fails.
+     */
     static async readEventByName(name)
     {
         try {
@@ -104,6 +145,13 @@ class EventService {
         }
     }
 
+    /**
+     * Fetches events by their status.
+     * 
+     * @param {string} status - The status of the events to fetch.
+     * @returns {Promise<Array>} A list of events with the given status.
+     * @throws {Error} If fetching events by status fails.
+     */
     static async readEventByStatus(status)
     {
         try {
@@ -129,6 +177,13 @@ class EventService {
         }
     }
 
+    /**
+     * Fetches events by their category ID.
+     * 
+     * @param {number} categoryId - The category ID of the events to fetch.
+     * @returns {Promise<Array>} A list of events with the given category ID.
+     * @throws {Error} If fetching events by category ID fails.
+     */
     static async readEventByCategoryId(categoryId) {
         try {
             const result = await EventRepository.readEventByCategoryId(categoryId);
@@ -141,6 +196,13 @@ class EventService {
         }
     }
 
+    /**
+     * Fetches the event date by its ID.
+     * 
+     * @param {number} id - The ID of the event.
+     * @returns {Promise<Event>} The event date for the event with the given ID.
+     * @throws {Error} If fetching the event date fails.
+     */
     static async readEventDateById(id) {
         try {
             const eventDate = await EventRepository.readEventDateById(id);

@@ -1,7 +1,14 @@
+const Category = require('../models/sequelizedCategoryModel');
 const CategoryRepositiory = require('../repositories/sequelizedCategoryRepository');
 
 class CategoryService {
 
+    /**
+     * @description Creates a new category.
+     * @param {Category} category - The category object containing category details.
+     * @returns {Promise<Category>} The created category.
+     * @throws {Error} If an error occurs during category creation.
+     */
     static async create(category)
     {
         try{
@@ -11,6 +18,12 @@ class CategoryService {
         }
     }
 
+    /**
+     * @description Updates an existing category.
+     * @param {Category} category - The category object containing updated details.
+     * @returns {Promise<Category>} The updated category.
+     * @throws {Error} If the category does not exist or an error occurs.
+     */
     static async update(category)
     {
         try{
@@ -24,6 +37,12 @@ class CategoryService {
         }  
     }
 
+    /**
+     * @description Deletes a category by its ID.
+     * @param {number} id - The ID of the category to delete.
+     * @returns {Promise<void>} Resolves if deletion is successful.
+     * @throws {Error} If the category does not exist or an error occurs.
+     */
     static async delete(id)
     {
         try{
@@ -79,7 +98,6 @@ class CategoryService {
         } catch (err) {
             throw new Error(`Failed to read category by id: ${err.message}`);
         }
-    
     }
 
     static async readCategoryByName(name)

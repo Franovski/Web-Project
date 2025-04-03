@@ -1,7 +1,15 @@
+const Section = require('../models/sequelizedSectionModel');
 const SectionRepository = require('../repositories/sequelizedSectionRepository');
 
 class SectionService {
 
+    /**
+     * Creates a new section entry.
+     * 
+     * @param {Section} section - The section data to be created.
+     * @returns {Promise<Section>} The created section.
+     * @throws {Error} If the creation fails.
+     */
     static async create(section)
     {
         try{
@@ -11,6 +19,13 @@ class SectionService {
         }    
     }
 
+    /**
+     * Updates an existing section entry.
+     * 
+     * @param {Section} section - The section data to be updated.
+     * @returns {Promise<Section>} The updated section.
+     * @throws {Error} If the section does not exist or the update fails.
+     */
     static async update(section)
     {
         try{
@@ -23,6 +38,13 @@ class SectionService {
         }
     }
 
+    /**
+     * Deletes a section entry by ID.
+     * 
+     * @param {number} id - The ID of the section to be deleted.
+     * @returns {Promise<void>} A promise that resolves when the section is deleted.
+     * @throws {Error} If the section does not exist or the deletion fails.
+     */
     static async delete(id)
     {
         try{
@@ -35,6 +57,12 @@ class SectionService {
         }
     }
 
+    /**
+     * Fetches all section entries.
+     * 
+     * @returns {Promise<Array>} A list of all sections.
+     * @throws {Error} If fetching all sections fails.
+     */
     static async readAll()
     {
         try {
@@ -55,6 +83,13 @@ class SectionService {
     
     }
 
+    /**
+     * Fetches a specific section entry by its ID.
+     * 
+     * @param {number} id - The ID of the section to fetch.
+     * @returns {Promise<Section>} The section with the given ID.
+     * @throws {Error} If the section does not exist or the fetch fails.
+     */
     static async readSectionById(id)
     {
         try {
@@ -80,6 +115,13 @@ class SectionService {
         }
     }
 
+    /**
+     * Fetches a specific section entry by its name.
+     * 
+     * @param {string} name - The name of the section to fetch.
+     * @returns {Promise<Section>} The section with the given name.
+     * @throws {Error} If the section does not exist or the fetch fails.
+     */
     static async readSectionByName(name)
     {
         try {
@@ -105,6 +147,13 @@ class SectionService {
         }
     }
 
+    /**
+     * Fetches section entries by their status.
+     * 
+     * @param {string} status - The status of the sections to fetch.
+     * @returns {Promise<Array>} A list of sections with the given status.
+     * @throws {Error} If fetching sections by status fails.
+     */
     static async readSectionByStatus(status)
     {
         try {

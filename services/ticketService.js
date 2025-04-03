@@ -1,8 +1,16 @@
 const TicketRepository = require('../repositories/sequelizedTicketRepository');
 const EventRepository = require('../repositories/sequelizedEventRepository');
+const Ticket = require('../models/sequelizedTicketModel');
 
 class TicketService {
 
+    /**
+     * Creates a new ticket entry.
+     * 
+     * @param {Ticket} ticket - The ticket data to be created.
+     * @returns {Promise<Ticket>} The created ticket.
+     * @throws {Error} If the creation fails or the dates are invalid.
+     */
     static async create(ticket) 
     {
         try {
@@ -27,6 +35,13 @@ class TicketService {
         }
     }
 
+    /**
+     * Updates an existing ticket entry.
+     * 
+     * @param {Ticket} ticket - The ticket data to be updated.
+     * @returns {Promise<Ticket>} The updated ticket.
+     * @throws {Error} If the ticket does not exist or the dates are invalid.
+     */
     static async update(ticket) 
     {
         try {
@@ -46,6 +61,13 @@ class TicketService {
         }
     }
 
+    /**
+     * Deletes a ticket entry by ID.
+     * 
+     * @param {number} id - The ID of the ticket to be deleted.
+     * @returns {Promise<void>} A promise that resolves when the ticket is deleted.
+     * @throws {Error} If the ticket does not exist or the deletion fails.
+     */
     static async delete(id)
     {
         try{
@@ -58,6 +80,12 @@ class TicketService {
         }
     }
 
+    /**
+     * Fetches all ticket entries.
+     * 
+     * @returns {Promise<Array>} A list of all tickets.
+     * @throws {Error} If fetching all tickets fails.
+     */
     static async readAll()
     {
         try {
@@ -77,6 +105,13 @@ class TicketService {
         }
     }
 
+    /**
+     * Fetches a specific ticket entry by its ID.
+     * 
+     * @param {number} id - The ID of the ticket to fetch.
+     * @returns {Promise<Ticket>} The ticket with the given ID.
+     * @throws {Error} If the ticket does not exist or the fetch fails.
+     */
     static async readTicketById(id)
     {
         try {
@@ -102,6 +137,13 @@ class TicketService {
         }
     }
 
+    /**
+     * Fetches ticket entries by their status.
+     * 
+     * @param {string} status - The status of the tickets to fetch.
+     * @returns {Promise<Array>} A list of tickets with the given status.
+     * @throws {Error} If fetching tickets by status fails.
+     */
     static async readTicketByStatus(status)
     {
         try {

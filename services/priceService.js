@@ -1,7 +1,15 @@
+const Price = require('../models/sequelizedPriceModel');
 const PriceRepository = require('../repositories/sequelizedPriceRepository');
 
 class PriceService {
 
+    /**
+     * Creates a new price entry.
+     * 
+     * @param {Price} price - The price data to be created.
+     * @returns {Promise<Price>} The created price.
+     * @throws {Error} If the creation fails.
+     */
     static async create(price)
     {
         try{
@@ -11,6 +19,13 @@ class PriceService {
         }
     }
 
+    /**
+     * Updates an existing price entry.
+     * 
+     * @param {Price} price - The price data to be updated.
+     * @returns {Promise<Price>} The updated price.
+     * @throws {Error} If the price does not exist or the update fails.
+     */
     static async update(price)
     {
         try{
@@ -23,6 +38,13 @@ class PriceService {
         }     
     }
 
+    /**
+     * Deletes a price entry by ID.
+     * 
+     * @param {number} id - The ID of the price to be deleted.
+     * @returns {Promise<void>} A promise that resolves when the price is deleted.
+     * @throws {Error} If the price does not exist or the deletion fails.
+     */
     static async delete(id)
     {
         try{
@@ -35,6 +57,12 @@ class PriceService {
         }
     }
 
+    /**
+     * Fetches all price entries.
+     * 
+     * @returns {Promise<Array>} A list of all prices.
+     * @throws {Error} If fetching all prices fails.
+     */
     static async readAll()
     {
         try {
@@ -54,6 +82,13 @@ class PriceService {
         }
     }
 
+    /**
+     * Fetches a specific price entry by its ID.
+     * 
+     * @param {number} id - The ID of the price to fetch.
+     * @returns {Promise<Price>} The price with the given ID.
+     * @throws {Error} If the price does not exist or the fetch fails.
+     */
     static async readPriceById(id)
     {
         try {

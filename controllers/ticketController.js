@@ -1,4 +1,4 @@
-const Ticket = require('../models/ticketModel');
+const Ticket = require('../models/sequelizedTicketModel.js');
 const ticketService = require('../services/ticketService.js');
 const EventService = require('../services/eventService.js');
 const moment = require('moment');
@@ -8,6 +8,11 @@ const fs = require('fs');
 
 class TicketController {
 
+    /**
+     * Creates a new ticket, generates a QR code, and saves it.
+     * @param {Request} req - Express request object.
+     * @param {Response} res - Express response object.
+     */
     static async create(req, res) {
         try {
             const { status, seatNumber, expiryDate, sectionId, userId, eventId } = req.body;
@@ -19,11 +24,7 @@ class TicketController {
                 throw new Error(`Event with ID ${eventId} not found.`);
             }
     
-            // Extract the event details (you can adjust this to fit your database schema)
-            const eventDetails = `Event Name: ${event.name}, Date: ${event.date}, Time: ${event.time}, 
-            Location: ${event.location}, Status: ${event.status}`;
-    
-            // Generate a unique QR code file name by appending a timestamp and userId
+            const eventDetails = `Event Name: ${event.name}, Date: ${event.date}, Time: ${event.time}, Location: ${event.location}, Status: ${event.status}`;
             const uniqueIdentifier = `${eventId}_${userId}_${Date.now()}`;
             const qrContent = `Event ID: ${eventId}, User ID: ${userId}, ${eventDetails}`;
             const qrImagePath = `./qr_codes/qr_${uniqueIdentifier}.png`;
@@ -47,7 +48,11 @@ class TicketController {
         }
     }
     
-
+    /**
+     * Updates an existing ticket and regenerates the QR code.
+     * @param {Request} req - Express request object.
+     * @param {Response} res - Express response object.
+     */
     static async update(req, res) {
         try {
             const { status, seatNumber, expiryDate, sectionId, userId, eventId } = req.body;
@@ -60,11 +65,7 @@ class TicketController {
                 throw new Error(`Event with ID ${eventId} not found.`);
             }
     
-            // Extract the event details
-            const eventDetails = `Event Name: ${event.name}, Date: ${event.date}, Time: ${event.time}, 
-            Location: ${event.location}, Status: ${event.status}`;
-    
-            // Generate a unique QR code file name by appending a timestamp and userId
+            const eventDetails = `Event Name: ${event.name}, Date: ${event.date}, Time: ${event.time}, Location: ${event.location}, Status: ${event.status}`;
             const uniqueIdentifier = `${eventId}_${userId}_${Date.now()}`;
             const qrContent = `Event ID: ${eventId}, User ID: ${userId}, ${eventDetails}`;
             const qrImagePath = `./qr_codes/qr_${uniqueIdentifier}.png`;
@@ -88,6 +89,9 @@ class TicketController {
         }
     }
 
+    /**
+     * Deletes a ticket by ID.
+     */
     static async delete(req, res) {
         try{
             const {id} = req.params;
@@ -99,6 +103,9 @@ class TicketController {
         }
     }
 
+    /**
+     * Retrieves all tickets.
+     */
     static async readAll(req, res) {
         try{
             const result = await ticketService.readAll();
@@ -109,6 +116,9 @@ class TicketController {
         }
     }
 
+    /**
+     * Retrieves a ticket by ID.
+     */
     static async readTicketById(req, res) {
         try{
             const {id} = req.params;
@@ -120,6 +130,9 @@ class TicketController {
         }
     }
 
+    /**
+     * Retrieves tickets by status.
+     */
     static async readTicketByStatus(req, res) {
         try{
             const {status} = req.params;
