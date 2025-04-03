@@ -1,4 +1,4 @@
-const PriceRepository = require('../repositories/priceRepository');
+const PriceRepository = require('../repositories/sequelizedPriceRepository');
 
 class PriceService {
 

@@ -9,7 +9,8 @@ Section.init(
         section_id:{
             type: DataTypes.INTEGER,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
+            unique: true
         },
         section_name:{
             type: DataTypes.STRING,
@@ -23,8 +24,9 @@ Section.init(
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        section_status:{
-            type: DataTypes.ENUM('Available', 'Unavailable'),
+        section_status: {
+            type: DataTypes.ENUM,
+            values: ['Available', 'Unavailable'],
             allowNull: false
         },
         event_id:{

@@ -1,4 +1,4 @@
-const TransactionRepository = require('../repositories/transactionRepository');
+const TransactionRepository = require('../repositories/sequelizedTransactionRepository');
 
 class TransactionService {
 

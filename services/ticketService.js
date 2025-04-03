@@ -1,5 +1,5 @@
-const TicketRepository = require('../repositories/ticketRepository');
-const EventRepository = require('../repositories/eventRepository');
+const TicketRepository = require('../repositories/sequelizedTicketRepository');
+const EventRepository = require('../repositories/sequelizedEventRepository');
 
 class TicketService {
 

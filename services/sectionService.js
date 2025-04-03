@@ -1,4 +1,4 @@
-const SectionRepository = require('../repositories/sectionRepository');
+const SectionRepository = require('../repositories/sequelizedSectionRepository');
 
 class SectionService {
 

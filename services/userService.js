@@ -1,7 +1,7 @@
-const UserRepository = require('../repositories/userRepository');
+const UserRepository = require('../repositories/sequelizedUserRepository');
 const TokenAuth = require('../Utils/tokenAuth');
 const Hashing = require('../Utils/hashing');
-const User = require('../models/userModel');
+const User = require('../models/sequelizedUserModel');
 
 
 class UserService {

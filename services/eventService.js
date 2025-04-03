@@ -1,4 +1,4 @@
-const EventRepository = require('../repositories/eventRepository');
+const EventRepository = require('../repositories/sequelizedEventRepository');
 
 class EventService {
 

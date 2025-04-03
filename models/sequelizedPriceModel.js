@@ -9,7 +9,8 @@ Price.init(
         price_id:{
             type: DataTypes.INTEGER,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
+            unique: true
         },
         ticket_price:{
             type: DataTypes.DECIMAL(10,2),
