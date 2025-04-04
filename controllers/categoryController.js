@@ -1,4 +1,4 @@
-const Category = require('../models/sequelizedCategoryModel.js');
+const Category = require('../models/categoryModel.js');
 const categoryService = require('../services/categoryService.js');
 const { Request, Response } = require('express');
 
@@ -16,7 +16,7 @@ class CategoryController {
             const { name } = req.body;
             var category = new Category(0, name);
             const result = await categoryService.create(category);
-            res.status(200).json(result);
+            res.status(200).json({message: "Category created successfully", result});
         } catch (err) {
             console.error("Error in CategoryController.create: ", err.message);
             res.status(500).json(err.message);
@@ -34,7 +34,7 @@ class CategoryController {
             const { id } = req.params;
             var category = new Category(id, name);
             const result = await categoryService.update(category);
-            res.status(200).json(result);
+            res.status(200).json({message: "Category updated successfully", result});
         } catch (err) {
             console.error("Error in CategoryController.update: ", err.message);
             res.status(500).json(err.message);
@@ -50,7 +50,7 @@ class CategoryController {
         try {
             const { id } = req.params;
             const result = await categoryService.delete(id);
-            res.status(200).json(result);
+            res.status(200).json({message: "Category deleted successfully", result});
         } catch (err) {
             console.error("Error in CategoryController.delete: ", err.message);
             res.status(500).json(err.message);
@@ -65,7 +65,7 @@ class CategoryController {
     static async readAll(req, res) {
         try {
             const result = await categoryService.readAll();
-            res.status(200).json(result);
+            res.status(200).json({message: "Categories retrieved successfully", result});
         } catch (err) {
             console.error("Error in CategoryController.readAll: ", err.message);
             res.status(500).json(err.message);
@@ -81,7 +81,7 @@ class CategoryController {
         try {
             const { id } = req.params;
             const result = await categoryService.readCategoryById(id);
-            res.status(200).json(result);
+            res.status(200).json({message: "Category retrieved successfully", result});
         } catch (err) {
             console.error("Error in CategoryController.readCategoryById: ", err.message);
             res.status(500).json(err.message);
@@ -97,7 +97,7 @@ class CategoryController {
         try {
             const { name } = req.params;
             const result = await categoryService.readCategoryByName(name);
-            res.status(200).json(result);
+            res.status(200).json({message: "Category retrieved successfully", result});
         } catch (err) {
             console.error("Error in CategoryController.readCategoryByName: ", err.message);
             res.status(500).json(err.message);

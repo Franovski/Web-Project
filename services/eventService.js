@@ -1,4 +1,5 @@
-const EventRepository = require('../repositories/sequelizedEventRepository');
+const EventRepository = require('../repositories/eventRepository');
+const CategoryRepository = require('../repositories/categoryRepository');
 
 class EventService {
 
@@ -28,9 +29,14 @@ class EventService {
     static async update(event)
     {
         try{
-            if(!EventRepository.isEventExistById(event.id)){
+            if(! await EventRepository.isEventExistById(event.id)){
                 throw new Error(`Event with id ${event.id} does not exist`);
             }
+
+            if(! await CategoryRepository.isCategoryExistById(event.categoryId)){
+                throw new Error(`Category with id ${event.categoryId} does not exist`);
+            }
+            
             return EventRepository.update(event);
         }catch(err){
             throw new Error(err);
@@ -47,7 +53,7 @@ class EventService {
     static async delete(id)
     {
         try{
-            if(!EventRepository.isEventExistById(id)){
+            if(! await EventRepository.isEventExistById(id)){
                 throw new Error(`Event with id ${id} does not exist`);
             }
             return EventRepository.delete(id);
@@ -184,15 +190,28 @@ class EventService {
      * @returns {Promise<Array>} A list of events with the given category ID.
      * @throws {Error} If fetching events by category ID fails.
      */
-    static async readEventByCategoryId(categoryId) {
+    static async readEventByCategoryId(categoryId)
+    {
         try {
-            const result = await EventRepository.readEventByCategoryId(categoryId);
-            // If result contains BigInt values, convert them to strings
-            return JSON.parse(JSON.stringify(result, (key, value) =>
-                typeof value === 'bigint' ? value.toString() : value
-            ));
+            // Check if the event exists by category ID
+            const eventExists = await EventRepository.isEventExistByCategoryId(categoryId);
+            if (!eventExists) {
+                throw new Error(`Event with category ID ${categoryId} does not exist`);
+            }
+
+            // Fetch the event by category ID
+            const events = await EventRepository.readEventByCategoryId(categoryId);
+    
+            // Convert BigInt fields (if any) to strings before returning
+            const eventsWithSafeBigInts = JSON.parse(
+                JSON.stringify(events, (key, value) =>
+                    typeof value === 'bigint' ? value.toString() : value
+                )
+            );
+    
+            return eventsWithSafeBigInts;
         } catch (err) {
-            throw new Error(err);
+            throw new Error(`Failed to read event by category ID: ${err.message}`);
         }
     }
 
@@ -203,21 +222,28 @@ class EventService {
      * @returns {Promise<Event>} The event date for the event with the given ID.
      * @throws {Error} If fetching the event date fails.
      */
-    static async readEventDateById(id) {
+    static async readEventDateById(id)
+    {
         try {
+            // Check if the event exists by ID
+            const eventExists = await EventRepository.isEventExistById(id);
+            if (!eventExists) {
+                throw new Error(`Event with id ${id} does not exist`);
+            }
+    
+            // Fetch the event date by ID
             const eventDate = await EventRepository.readEventDateById(id);
     
-            // Convert BigInt values to string if necessary
-            // Ensure any BigInt fields (like event ID) are converted to string
-            const eventDateString = JSON.parse(
+            // Convert BigInt fields (if any) to strings before returning
+            const eventDateWithSafeBigInts = JSON.parse(
                 JSON.stringify(eventDate, (key, value) =>
                     typeof value === 'bigint' ? value.toString() : value
                 )
             );
     
-            return eventDateString;
+            return eventDateWithSafeBigInts;
         } catch (err) {
-            throw new Error(err);
+            throw new Error(`Failed to read event date by id: ${err.message}`);
         }
     }
 }

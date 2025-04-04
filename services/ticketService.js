@@ -1,6 +1,8 @@
-const TicketRepository = require('../repositories/sequelizedTicketRepository');
-const EventRepository = require('../repositories/sequelizedEventRepository');
-const Ticket = require('../models/sequelizedTicketModel');
+const TicketRepository = require('../repositories/ticketRepository');
+const EventRepository = require('../repositories/eventRepository');
+const SectionRepository = require('../repositories/sectionRepository');
+const UserRepository = require('../repositories/userRepository');
+const Ticket = require('../models/ticketModel');
 
 class TicketService {
 
@@ -29,6 +31,18 @@ class TicketService {
                 throw new Error(`Expiry date must be the same as the event date: ${formattedEventDate}`);
             }
 
+            if(!await SectionRepository.isSectionExistById(ticket.sectionId)) {
+                throw new Error(`Section with id ${ticket.sectionId} does not exist`);
+            }
+
+            if(!await UserRepository.isUserExistById(ticket.userId)) {
+                throw new Error(`User with id ${ticket.userId} does not exist`);
+            }
+
+            if(!await EventRepository.isEventExistById(ticket.eventId)) {
+                throw new Error(`Event with id ${ticket.eventId} does not exist`);
+            }
+
             return TicketRepository.create(ticket);
         } catch (err) {
             throw new Error(err);
@@ -45,6 +59,22 @@ class TicketService {
     static async update(ticket) 
     {
         try {
+
+            // Validate if expiry date is after purchase date
+            if (ticket.purchaseDate > ticket.expiryDate) {
+                throw new Error(`Expiry date must be after the purchase date: ${ticket.purchaseDate}`);
+            }
+
+            const eventDate = await EventRepository.readEventDateById(ticket.eventId);
+
+            const formattedExpiryDate = ticket.expiryDate.split('T')[0];  // Assuming ISO string
+            const formattedEventDate = eventDate.toISOString().split('T')[0];
+
+            // Validate that the expiry date matches the event date
+            if (formattedExpiryDate !== formattedEventDate) {
+                throw new Error(`Expiry date must be the same as the event date: ${formattedEventDate}`);
+            }
+            
             // Check if the ticket exists
             if (!await TicketRepository.isTicketExistById(ticket.id)) {
                 throw new Error(`Ticket with id ${ticket.id} does not exist`);
@@ -53,6 +83,18 @@ class TicketService {
             // Validate if expiry date is after purchase date
             if (ticket.purchaseDate > ticket.expiryDate) {
                 throw new Error("Expiry date must be after the purchase date.");
+            }
+
+            if(! await SectionRepository.isSectionExistById(ticket.sectionId)){
+                throw new Error(`Section with id ${ticket.sectionId} does not exist`);
+            }
+
+            if(! await UserRepository.isUserExistById(ticket.userId)){
+                throw new Error(`User with id ${ticket.userId} does not exist`);
+            }
+
+            if(! await EventRepository.isEventExistById(ticket.eventId)){
+                throw new Error(`Event with id ${ticket.eventId} does not exist`);
             }
 
             return TicketRepository.update(ticket);
@@ -71,7 +113,7 @@ class TicketService {
     static async delete(id)
     {
         try{
-            if(!TicketRepository.isTicketExistById(id)){
+            if(! await TicketRepository.isTicketExistById(id)){
                 throw new Error(`Ticket with id ${id} does not exist`);
             }
             return TicketRepository.delete(id);

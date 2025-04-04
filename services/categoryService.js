@@ -1,5 +1,5 @@
-const Category = require('../models/sequelizedCategoryModel');
-const CategoryRepositiory = require('../repositories/sequelizedCategoryRepository');
+const Category = require('../models/categoryModel');
+const CategoryRepositiory = require('../repositories/categoryRepository');
 
 class CategoryService {
 

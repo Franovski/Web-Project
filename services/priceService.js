@@ -1,5 +1,7 @@
-const Price = require('../models/sequelizedPriceModel');
-const PriceRepository = require('../repositories/sequelizedPriceRepository');
+const Price = require('../models/priceModel');
+const PriceRepository = require('../repositories/priceRepository');
+const EventRepository = require('../repositories/eventRepository');
+const SectionRepository = require('../repositories/sectionRepository');
 
 class PriceService {
 
@@ -29,9 +31,18 @@ class PriceService {
     static async update(price)
     {
         try{
-            if(!PriceRepository.isPriceExistById(price.id)){
+            if(! await PriceRepository.isPriceExistById(price.id)){
                 throw new Error(`Price with id ${price.id} does not exist`);
             }
+
+            if(! await EventRepository.isEventExistById(price.eventId)){
+                throw new Error(`Event with id ${price.eventId} does not exist`);
+            }
+
+            if(! await SectionRepository.isSectionExistById(price.sectionId)){
+                throw new Error(`Section with id ${price.sectionId} does not exist`);
+            }
+
             return PriceRepository.update(price);
         }catch(err){
             throw new Error(err);
@@ -48,7 +59,7 @@ class PriceService {
     static async delete(id)
     {
         try{
-            if(!PriceRepository.isPriceExistById(id)){
+            if(! await PriceRepository.isPriceExistById(id)){
                 throw new Error(`Price with id ${id} does not exist`);
             }
             return PriceRepository.delete(id);

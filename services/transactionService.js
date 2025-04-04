@@ -1,5 +1,6 @@
-const { Transaction } = require('sequelize');
-const TransactionRepository = require('../repositories/sequelizedTransactionRepository');
+const TransactionRepository = require('../repositories/transactionRepository');
+const TicketRepository = require('../repositories/ticketRepository');
+const UserRepository = require('../repositories/userRepository');
 
 class TransactionService {
 
@@ -13,6 +14,15 @@ class TransactionService {
     static async create(transaction)
     {
         try{
+
+            if(! await TicketRepository.isTicketExistById(transaction.ticketId)){
+                throw new Error(`Ticket with id ${transaction.ticketId} does not exist`);
+            }
+
+            if(! await UserRepository.isUserExistById(transaction.userId)){
+                throw new Error(`User with id ${transaction.userId} does not exist`);
+            }
+
             return TransactionRepository.create(transaction);
         }catch(err){
             throw new Error(err);
@@ -29,9 +39,18 @@ class TransactionService {
     static async update(transaction)
     {
         try{
-            if(!TransactionRepository.isTransactionExistById(transaction.transaction_id)){
-                throw new Error(`Transaction with id ${transaction.transaction_id} does not exist`);
+            if(! await TransactionRepository.isTransactionExistById(transaction.id)){
+                throw new Error(`Transaction with id ${transaction.id} does not exist`);
             }
+
+            if(! await TicketRepository.isTicketExistById(transaction.ticketId)){
+                throw new Error(`Ticket with id ${transaction.ticketId} does not exist`);
+            }
+
+            if(! await UserRepository.isUserExistById(transaction.userId)){
+                throw new Error(`User with id ${transaction.userId} does not exist`);
+            }
+
             return TransactionRepository.update(transaction);
         }catch(err){
             throw new Error(err);
@@ -48,7 +67,7 @@ class TransactionService {
     static async delete(id)
     {
         try{
-            if(!TransactionRepository.isTransactionExistById(id)){
+            if(! await TransactionRepository.isTransactionExistById(id)){
                 throw new Error(`Transaction with id ${id} does not exist`);
             }
             return TransactionRepository.delete(id);

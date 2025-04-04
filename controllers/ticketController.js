@@ -1,4 +1,4 @@
-const Ticket = require('../models/sequelizedTicketModel.js');
+const Ticket = require('../models/ticketModel.js');
 const ticketService = require('../services/ticketService.js');
 const EventService = require('../services/eventService.js');
 const moment = require('moment');
@@ -41,7 +41,7 @@ class TicketController {
             // Create a new ticket instance with the QR code path
             var ticket = new Ticket(0, status, seatNumber, purchaseDate, expiryDate, qrImagePath, sectionId, userId, eventId);
             const result = await ticketService.create(ticket);
-            res.status(200).json(result);
+            res.status(200).json({message: "Ticket created successfully", result});
         } catch (err) {
             console.error("Error in TicketController.create: ", err.message);
             res.status(500).json(err.message);
@@ -82,7 +82,7 @@ class TicketController {
             // Update ticket instance with the QR code path
             var ticket = new Ticket(id, status, seatNumber, purchaseDate, expiryDate, qrImagePath, sectionId, userId, eventId);
             const result = await ticketService.update(ticket);
-            res.status(200).json(result);
+            res.status(200).json({message: "Ticket updated successfully", result});
         } catch (err) {
             console.error("Error in TicketController.update: ", err.message);
             res.status(500).json(err.message);
@@ -96,7 +96,7 @@ class TicketController {
         try{
             const {id} = req.params;
             const result = await ticketService.delete(id);
-            res.status(200).json(result);
+            res.status(200).json({message: "Ticket deleted successfully", result});
         }catch(err){
             console.error("Error in TicketController.delete: " , err.message);
             res.status(500).json(err.message);
@@ -109,7 +109,7 @@ class TicketController {
     static async readAll(req, res) {
         try{
             const result = await ticketService.readAll();
-            res.status(200).json(result);
+            res.status(200).json({message: "Tickets retrieved successfully", result});
         }catch(err){
             console.error("Error in TicketController.readAll: " , err.message);
             res.status(500).json(err.message);
@@ -123,7 +123,7 @@ class TicketController {
         try{
             const {id} = req.params;
             const result = await ticketService.readTicketById(id);
-            res.status(200).json(result);
+            res.status(200).json({message: "Ticket retrieved successfully", result});
         }catch(err){
             console.error("Error in TicketController.readTicketById: " , err.message);
             res.status(500).json(err.message);
@@ -137,7 +137,7 @@ class TicketController {
         try{
             const {status} = req.params;
             const result = await ticketService.readTicketByStatus(status);
-            res.status(200).json(result);
+            res.status(200).json({message: "Tickets retrieved successfully", result});
         }catch(err){
             console.error("Error in TicketController.readTicketByStatus: " , err.message);
             res.status(500).json(err.message);

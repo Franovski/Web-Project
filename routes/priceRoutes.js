@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/', PriceController.readAll);
 router.get('/:id', validatePriceById, PriceController.readPriceById);
 router.post('/', validatePrice, PriceController.create);
-router.put('/:id', validatePriceById, PriceController.update);
+router.put('/:id', validatePriceById, validatePrice, PriceController.update);
 router.delete('/:id', validatePriceById, PriceController.delete);
 
 module.exports = router;

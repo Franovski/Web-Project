@@ -11,7 +11,7 @@ router.get ('/name/:name', validateEventByName, EventController.readEventByName)
 router.get('/status/:status', validateEventByStatus, EventController.readEventByStatus);
 router.get('/category/:categoryId', validateEventByCategoryId, EventController.readEventByCategoryId);
 router.get ('/date/:id', validateEventDateById, EventController.readEventDateById);
-router.put ('/:id', validateEventById, EventController.update);
+router.put ('/:id', validateEventById, validateEvent, EventController.update);
 router.post ('/', validateEvent, EventController.create);
 router.delete ('/:id', validateEventById, EventController.delete);
 module.exports = router;

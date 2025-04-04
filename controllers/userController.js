@@ -1,5 +1,6 @@
-const User = require('../models/sequelizedUserModel.js');
+const User = require('../models/userModel.js');
 const userService = require('../services/userService.js');
+const Hashing = require('../Utils/hashing.js');
 const moment = require('moment');
 
 /**
@@ -20,7 +21,7 @@ class UserController {
             const createdAt = moment().format('YYYY-MM-DD HH:mm:ss');
             var user = new User(0, role, createdAt, firstName, lastName, email, password, phoneNbr);
             const result = await userService.create(user);
-            res.status(200).json(result);
+            res.status(200).json({message: "User created successfully", result});
         } catch (err) {
             console.error("Error in UserController.create: ", err.message);
             res.status(500).json(err.message);
@@ -35,12 +36,12 @@ class UserController {
      */
     static async update(req, res) {
         try {
-            const { role, firstName, lastName, email, password, phoneNbr } = req.body;
+            const { role, firstName, lastName, email, phoneNbr } = req.body;
             const createdAt = moment().format('YYYY-MM-DD HH:mm:ss');
             const { id } = req.params;
-            var user = new User(id, role, createdAt, firstName, lastName, email, password, phoneNbr);
+            var user = new User(id, role, createdAt, firstName, lastName, email, phoneNbr);
             const result = await userService.update(user);
-            res.status(200).json(result);
+            res.status(200).json({message: "User updated successfully", result});
         } catch (err) {
             console.error("Error in UserController.update: ", err.message);
             res.status(500).json(err.message);
@@ -57,7 +58,7 @@ class UserController {
         try {
             const { id } = req.params;
             const result = await userService.delete(id);
-            res.status(200).json(result);
+            res.status(200).json({message: "User deleted successfully", result});
         } catch (err) {
             console.error("Error in UserController.delete: ", err.message);
             res.status(500).json(err.message);
@@ -73,7 +74,7 @@ class UserController {
     static async readAll(req, res) {
         try {
             const result = await userService.readAll();
-            res.status(200).json(result);
+            res.status(200).json({message: "Users retrieved successfully", result});
         } catch (err) {
             console.error("Error in UserController.readAll: ", err.message);
             res.status(500).json(err.message);
@@ -90,7 +91,7 @@ class UserController {
         try {
             const { id } = req.params;
             const result = await userService.readUserById(id);
-            res.status(200).json(result);
+            res.status(200).json({message: "User retrieved successfully", result});
         } catch (err) {
             console.error("Error in UserController.readUserById: ", err.message);
             res.status(500).json(err.message);
@@ -107,7 +108,7 @@ class UserController {
         try {
             const { firstName } = req.params;
             const result = await userService.readUserByFirstName(firstName);
-            res.status(200).json(result);
+            res.status(200).json({message: "User retrieved successfully", result});
         } catch (err) {
             console.error("Error in UserController.readUserByFirstName: ", err.message);
             res.status(500).json(err.message);
@@ -124,7 +125,7 @@ class UserController {
         try {
             const { lastName } = req.params;
             const result = await userService.readUserByLastName(lastName);
-            res.status(200).json(result);
+            res.status(200).json({message: "User retrieved successfully", result});
         } catch (err) {
             console.error("Error in UserController.readUserByLastName: ", err.message);
             res.status(500).json(err.message);
@@ -141,7 +142,7 @@ class UserController {
         try {
             const { email } = req.params;
             const result = await userService.readUserByEmail(email);
-            res.status(200).json(result);
+            res.status(200).json({message: "User retrieved successfully", result});
         } catch (err) {
             console.error("Error in UserController.readUserByEmail: ", err.message);
             res.status(500).json(err.message);
@@ -158,7 +159,7 @@ class UserController {
         try {
             const { email } = req.params;
             const result = await userService.getPasswordByEmail(email);
-            res.status(200).json(result);
+            res.status(200).json({message: "Password retrieved successfully", result});
         } catch (err) {
             console.error("Error in UserController.getPasswordByEmail: ", err.message);
             res.status(500).json(err.message);
@@ -175,7 +176,7 @@ class UserController {
         try {
             const { id } = req.params;
             const result = await userService.readUserTickets(id);
-            res.status(200).json(result);
+            res.status(200).json({message: "User tickets retrieved successfully", result});
         } catch (err) {
             console.error("Error in UserController.readUserTickets: ", err.message);
             res.status(500).json(err.message);
@@ -192,7 +193,7 @@ class UserController {
         try {
             const { role } = req.params;
             const result = await userService.readUserByRole(role);
-            res.status(200).json(result);
+            res.status(200).json({message: "Users by role retrieved successfully", result});
         } catch (err) {
             console.error("Error in UserController.readUserByRole: ", err.message);
             res.status(500).json(err.message);
@@ -209,7 +210,7 @@ class UserController {
         try {
             const { id } = req.params;
             const result = await userService.readUserRoleById(id);
-            res.status(200).json(result);
+            res.status(200).json({message: "User role retrieved successfully", result});
         } catch (err) {
             console.error("Error in UserController.readUserRoleById: ", err.message);
             res.status(500).json(err.message);
@@ -234,7 +235,7 @@ class UserController {
             }
 
             const user = await userService.login(email, password);
-            return res.status(200).json(user);
+            return res.status(200).json({ message: "Login successful", user });
         } catch (err) {
             console.error("Error in UserController.login: ", err.message);
             return res.status(500).json({ message: err.message });
@@ -254,7 +255,7 @@ class UserController {
             const result = await userService.changePassword(email, oldPassword, newPassword);
             return res.status(200).json({ message: `Password changed successfully`, result: result });
         } catch (err) {
-            console.error("Error in UserController.changePassword: ", err.message);
+            //console.error("Error in UserController.changePassword: ", err.message);
             return res.status(500).json({ message: err.message });
         }
     }

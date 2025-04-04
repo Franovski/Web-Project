@@ -1,4 +1,4 @@
-const Section = require('../models/sequelizedSectionModel.js');
+const Section = require('../models/sectionModel.js');
 const sectionService = require('../services/sectionService.js');
 const { Request, Response } = require('express');
 
@@ -16,7 +16,7 @@ class SectionController {
             const { name, rowCount, seatCount, status, eventId } = req.body;
             var section = new Section(0, name, rowCount, seatCount, status, eventId);
             const result = await sectionService.create(section);
-            res.status(200).json(result);
+            res.status(200).json({message: "Section created successfully", result});
         } catch (err) {
             console.error("Error in SectionController.create: ", err.message);
             res.status(500).json(err.message);
@@ -34,7 +34,7 @@ class SectionController {
             const { id } = req.params;
             var section = new Section(id, name, rowCount, seatCount, status, eventId);
             const result = await sectionService.update(section);
-            res.status(200).json(result);
+            res.status(200).json({message: "Section updated successfully", result});
         } catch (err) {
             console.error("Error in SectionController.update: ", err.message);
             res.status(500).json(err.message);
@@ -50,7 +50,7 @@ class SectionController {
         try {
             const { id } = req.params;
             const result = await sectionService.delete(id);
-            res.status(200).json(result);
+            res.status(200).json({message: "Section deleted successfully", result});
         } catch (err) {
             console.error("Error in SectionController.delete: ", err.message);
             res.status(500).json(err.message);
@@ -65,7 +65,7 @@ class SectionController {
     static async readAll(req, res) {
         try {
             const result = await sectionService.readAll();
-            res.status(200).json(result);
+            res.status(200).json({message: "Sections retrieved successfully", result});
         } catch (err) {
             console.error("Error in SectionController.readAll: ", err.message);
             res.status(500).json(err.message);
@@ -81,7 +81,7 @@ class SectionController {
         try {
             const { id } = req.params;
             const result = await sectionService.readSectionById(id);
-            res.status(200).json(result);
+            res.status(200).json({message: "Section retrieved successfully", result});
         } catch (err) {
             console.error("Error in SectionController.readSectionById: ", err.message);
             res.status(500).json(err.message);
@@ -97,7 +97,7 @@ class SectionController {
         try {
             const { name } = req.params;
             const result = await sectionService.readSectionByName(name);
-            res.status(200).json(result);
+            res.status(200).json({message: "Section retrieved successfully", result});
         } catch (err) {
             console.error("Error in SectionController.readSectionByName: ", err.message);
             res.status(500).json(err.message);
@@ -113,7 +113,7 @@ class SectionController {
         try {
             const { status } = req.params;
             const result = await sectionService.readSectionByStatus(status);
-            res.status(200).json(result);
+            res.status(200).json({message: "Sections retrieved successfully", result});
         } catch (err) {
             console.error("Error in SectionController.readSectionByStatus: ", err.message);
             res.status(500).json(err.message);

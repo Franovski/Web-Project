@@ -10,7 +10,8 @@ const {
     validateReadUserTickets,
     validateUserLogin,
     validateUserChangePassword,
-    validateUserRoleById
+    validateUserRoleById,
+    validateUpdateUser
 } = require('../validators/user.dto');
 const router = express.Router();
 
@@ -26,7 +27,7 @@ router.get('/roleById/:id', validateUserRoleById, UserController.readUserRoleByI
 router.post('/', validateUser, UserController.create);
 router.post('/login', validateUserLogin, UserController.login);
 router.put('/password/', validateUserChangePassword, UserController.changePassword);
-router.put('/:id', validateUserById, UserController.update);
+router.put('/:id', validateUserById, validateUpdateUser, UserController.update);
 router.delete('/:id', validateUserById, UserController.delete);
 
 module.exports = router;

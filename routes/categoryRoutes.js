@@ -7,7 +7,7 @@ router.get('/', CategoryController.readAll);
 router.get('/:id', validateCategoryId, CategoryController.readCategoryById);
 router.get('/name/:name', validateCategoryByName, CategoryController.readCategoryByName);
 router.post('/', validateCategory, CategoryController.create);
-router.put('/:id', validateCategoryId, CategoryController.update);
+router.put('/:id', validateCategoryId, validateCategory, CategoryController.update);
 router.delete('/:id', validateCategoryId, CategoryController.delete);
 
 module.exports = router;

@@ -1,5 +1,6 @@
-const Section = require('../models/sequelizedSectionModel');
-const SectionRepository = require('../repositories/sequelizedSectionRepository');
+const Section = require('../models/sectionModel');
+const SectionRepository = require('../repositories/sectionRepository');
+const EventRepository = require('../repositories/eventRepository');
 
 class SectionService {
 
@@ -29,8 +30,12 @@ class SectionService {
     static async update(section)
     {
         try{
-            if(!SectionRepository.isSectionExistById(section.id)){
+            if(! await SectionRepository.isSectionExistById(section.id)){
                 throw new Error(`Section with id ${section.id} does not exist`);
+            }
+
+            if(! await EventRepository.isEventExistById(section.eventId)){
+                throw new Error(`Event with id ${section.eventId} does not exist`);
             }
             return SectionRepository.update(section);
         }catch(err){
@@ -48,7 +53,7 @@ class SectionService {
     static async delete(id)
     {
         try{
-            if(!SectionRepository.isSectionExistById(id)){
+            if(! await SectionRepository.isSectionExistById(id)){
                 throw new Error(`Section with id ${id} does not exist`);
             }
             return SectionRepository.delete(id);

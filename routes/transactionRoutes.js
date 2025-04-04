@@ -7,7 +7,7 @@ router.get('/', TransactionController.readAll);
 router.get('/:id', validateTransactionById, TransactionController.readTransactionById);
 router.get('/status/:status', validateTransactionByStatus, TransactionController.readTransactionByStatus);
 router.post('/', validateTransaction, TransactionController.create);
-router.put('/:id', validateTransactionById, TransactionController.update);
+router.put('/:id', validateTransactionById, validateTransaction, TransactionController.update);
 router.delete('/:id', validateTransactionById, TransactionController.delete);
 
 module.exports = router;

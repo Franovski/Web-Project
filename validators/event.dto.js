@@ -38,6 +38,11 @@ const validateEvent = [
     .optional({ nullable: true })  // Allows the field to be null or omitted
     .isString()
     .withMessage('image must be string'),
+    body('categoryId')
+    .isInt()
+    .withMessage('categoryId must be an integer')
+    .notEmpty()
+    .withMessage('categoryId is required'),
     (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {

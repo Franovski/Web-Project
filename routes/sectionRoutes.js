@@ -8,6 +8,6 @@ router.get('/:id', validateSectionById, SectionController.readSectionById);
 router.get('/name/:name', validateSectionByName, SectionController.readSectionByName);
 router.get('/status/:status', validateSectionByStatus, SectionController.readSectionByStatus);
 router.post('/', validateSection, SectionController.create);
-router.put('/:id', validateSectionById, SectionController.update);
+router.put('/:id', validateSectionById, validateSection,SectionController.update);
 router.delete('/:id', validateSectionById, SectionController.delete);
 module.exports = router;

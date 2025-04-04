@@ -1,7 +1,7 @@
-const UserRepository = require('../repositories/sequelizedUserRepository');
+const UserRepository = require('../repositories/userRepository');
 const TokenAuth = require('../Utils/tokenAuth');
 const Hashing = require('../Utils/hashing');
-const User = require('../models/sequelizedUserModel');
+const User = require('../models/userModel');
 
 class UserService {
     
@@ -201,17 +201,26 @@ class UserService {
      * @returns {Promise<User>} The user password object.
      */
     static async getPasswordByEmail(email){
-        try{
-            const pass = await UserRepository.getPasswordByEmail(email);
-            const userWithSafeBigInts = JSON.parse(
-                JSON.stringify(pass, (key, value) =>
-                typeof value === 'bigint' ? value.toString(): value
+        try {
+            // Check if the user exists by email
+            const userExists = await UserRepository.isUserExistByEmail(email);
+            if (!userExists) {
+                throw new Error(`User with email ${email} does not exist`);
+            }
+    
+            // Fetch the password by email
+            const password = await UserRepository.getPasswordByEmail(email);
+    
+            // Convert BigInt fields (if any) to strings before returning
+            const passwordWithSafeBigInts = JSON.parse(
+                JSON.stringify(password, (key, value) =>
+                    typeof value === 'bigint' ? value.toString() : value
                 )
             );
-
-            return userWithSafeBigInts;
-        }catch(err){
-        throw new Error(`Failed to read password with this ${email}`);
+    
+            return passwordWithSafeBigInts;
+        } catch (err) {
+            throw new Error(`Failed to read password by email: ${err.message}`);
         }
     }
 
@@ -221,16 +230,26 @@ class UserService {
      * @returns {Promise<Array>} A list of the user's tickets.
      */
     static async readUserTickets(id){
-        try{
+        try {
+            // Check if the user exists by ID
+            const userExists = await UserRepository.isUserExistById(id);
+            if (!userExists) {
+                throw new Error(`User with id ${id} does not exist`);
+            }
+    
+            // Fetch the user's tickets by ID
             const tickets = await UserRepository.readUserTickets(id);
-            const userWithSafeBigInts = JSON.parse(
+    
+            // Convert BigInt fields (if any) to strings before returning
+            const ticketsWithSafeBigInts = JSON.parse(
                 JSON.stringify(tickets, (key, value) =>
-                typeof value === 'bigint' ? value.toString(): value
+                    typeof value === 'bigint' ? value.toString() : value
                 )
             );
-            return userWithSafeBigInts;
-        }catch(err){
-            throw new Error(`Failed to read tickets with id ${id}`);
+    
+            return ticketsWithSafeBigInts;
+        } catch (err) {
+            throw new Error(`Failed to read user tickets: ${err.message}`);
         }
     }
 
@@ -240,16 +259,26 @@ class UserService {
      * @returns {Promise<Array>} A list of users with the specified role.
      */
     static async readUserByRole(role){
-        try{
-            const user = await UserRepository.readUserByRole(role);
-            const userWithSafeBigInts = JSON.parse(
-                JSON.stringify(user, (key, value) =>
-                typeof value === 'bigint' ? value.toString(): value
+        try {
+            // Check if the user exists by role
+            const userExists = await UserRepository.isUserExistByRole(role);
+            if (!userExists) {
+                throw new Error(`User with role ${role} does not exist`);
+            }
+    
+            // Fetch users by role
+            const users = await UserRepository.readUserByRole(role);
+    
+            // Convert BigInt fields (if any) to strings before returning
+            const usersWithSafeBigInts = JSON.parse(
+                JSON.stringify(users, (key, value) =>
+                    typeof value === 'bigint' ? value.toString() : value
                 )
             );
-            return userWithSafeBigInts;
-        }catch(err){
-            throw new Error(`Failed to read user with this ${role}`);
+    
+            return usersWithSafeBigInts;
+        } catch (err) {
+            throw new Error(`Failed to read users by role: ${err.message}`);
         }
     }
 
@@ -259,16 +288,26 @@ class UserService {
      * @returns {Promise<User>} The user's role object.
      */
     static async readUserRoleById(id){
-        try{
+        try {
+            // Check if the user exists by ID
+            const userExists = await UserRepository.isUserExistById(id);
+            if (!userExists) {
+                throw new Error(`User with id ${id} does not exist`);
+            }
+    
+            // Fetch the user's role by ID
             const role = await UserRepository.readUserRoleById(id);
-            const userWithSafeBigInts = JSON.parse(
+    
+            // Convert BigInt fields (if any) to strings before returning
+            const roleWithSafeBigInts = JSON.parse(
                 JSON.stringify(role, (key, value) =>
-                typeof value === 'bigint' ? value.toString(): value
+                    typeof value === 'bigint' ? value.toString() : value
                 )
             );
-            return userWithSafeBigInts;
-        }catch(err){
-            throw new Error(`Failed to read user with this ${id}`);
+    
+            return roleWithSafeBigInts;
+        } catch (err) {
+            throw new Error(`Failed to read user role by id: ${err.message}`);
         }
     }
 
@@ -344,6 +383,7 @@ class UserService {
             }
             const users = await UserRepository.readUserByEmail(email);
             const user = users[0];
+            //console.log(user)
 
              // Verify the password
 

@@ -44,6 +44,45 @@ const validateUser = [
     }
 ]
 
+const validateUpdateUser = [
+    body('role')
+    .isIn(['Admin', 'Customer'])
+    .withMessage('role must be Admin or Customer')
+    .notEmpty()
+    .withMessage('role is required'),
+    body('firstName')
+    .isString()
+    .withMessage('firstName must be string')
+    .notEmpty()
+    .withMessage('firstName is required'),
+    body('lastName')
+    .isString()
+    .withMessage('lastName must be string')
+    .notEmpty()
+    .withMessage('lastName is required'),
+    body('email')
+    .isEmail()
+    .withMessage('email must be a valid email')
+    .notEmpty()
+    .withMessage('email is required'),
+    /*body('password')
+    .isString()
+    .withMessage('password must be string')
+    .notEmpty()
+    .withMessage('password is required'),*/
+    body('phoneNbr')
+    .optional({ nullable: true })  // Allows the field to be null or omitted
+    .isString()
+    .withMessage('phoneNbr must be a string'),
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({errors: errors.array()});
+        }
+        next();
+    }
+]
+
 const validateUserById = [
     param('id').isInt().withMessage('The Id must be an integer'),
     (req, res, next) => {
@@ -122,8 +161,16 @@ const validateUserRoleById = [
 ]
 
 const validateUserLogin = [
-    body('email').isEmail().withMessage('The email must be a valid email'),
-    body('password').isString().withMessage('The password must be a string'),
+    body('email')
+    .isEmail()
+    .withMessage('The email must be a valid email')
+    .notEmpty()
+    .withMessage('The email is required'),
+    body('password')
+    .isString()
+    .withMessage('The password must be a string')
+    .notEmpty()
+    .withMessage('The password is required'),
     (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -134,8 +181,21 @@ const validateUserLogin = [
 ]
 
 const validateUserChangePassword = [
-    body('password').isString().withMessage('The password must be a string'),
-    body('newPassword').isString().withMessage('The new password must be a string'),
+    body('email')
+    .isEmail()
+    .withMessage('The email must be a valid email')
+    .notEmpty()
+    .withMessage('The email is required'),
+    body('oldPassword')
+    .isString()
+    .withMessage('The old password must be a string')
+    .notEmpty()
+    .withMessage('The old password is required'),
+    body('newPassword')
+    .isString()
+    .withMessage('The new password must be a string')
+    .notEmpty()
+    .withMessage('The new password is required'),
     (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -155,5 +215,6 @@ module.exports = {
     validateReadUserTickets,
     validateUserRoleById,
     validateUserLogin,
-    validateUserChangePassword
+    validateUserChangePassword,
+    validateUpdateUser
 }
