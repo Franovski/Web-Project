@@ -229,7 +229,7 @@ class UserService {
      * @param {string} id - The user ID to fetch their tickets.
      * @returns {Promise<Array>} A list of the user's tickets.
      */
-    static async readUserTickets(id){
+    static async readUserTickets(id) {
         try {
             // Check if the user exists by ID
             const userExists = await UserRepository.isUserExistById(id);
@@ -239,6 +239,11 @@ class UserService {
     
             // Fetch the user's tickets by ID
             const tickets = await UserRepository.readUserTickets(id);
+    
+            // If no tickets found, return a custom message
+            if (!tickets || tickets.length === 0) {
+                return { message: "User doesn't have any tickets" };
+            }
     
             // Convert BigInt fields (if any) to strings before returning
             const ticketsWithSafeBigInts = JSON.parse(
