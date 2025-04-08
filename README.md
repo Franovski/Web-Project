@@ -12,27 +12,32 @@ Ensure you have the following installed on your system:
 ## 📂 Project Structure
 ```
 /project-root
-│── src
-│   ├── config          # Configuration files (DB, dotenv, etc.)
-│   ├── controllers     # Business logic for API endpoints
-│   ├── models          # Database models and schema
-│   ├── routes          # Express routes
-│   ├── middleware      # Authentication, validation, etc.
-│   ├── utils           # Utility functions
-│── .env                # Environment variables
-│── package.json        # Dependencies and scripts
-│── server.js           # Entry point of the application
+│── config                    # Configuration files
+│── controllers               # Request handlers
+│── models                    # ODM models
+│── qr_codes                  # where the qr code images are generated
+│── repositories              # Database access layer
+│── routes                    # API route definitions
+│── services                  # Business logic
+│── utils                     # Helper functions
+│── validators                # Request validation logic
+│── .env                      # Environment variables
+│── .gitignore                # Git ignored files
+│── index.js                  # Application entry point
+│── package.json              # Node.js dependencies
+│── README.md                 # Documentation
+│── TicketingBoxOffice.sql    # Database schema
 ```
 
 ## 🚀 Installation & Setup
 1. **Clone the repository**
-   ```sh
+   ```
    git clone https://github.com/Franovski/Web-Project
-   cd project-root
+   cd Web-Project
    ```
 
 2. **Install dependencies**
-   ```sh
+   ```
    npm install
    ```
 
@@ -40,11 +45,11 @@ Ensure you have the following installed on your system:
    Create a `.env` file in the root directory and add the following:
    ```env
     PORT = 3001
-    DB_HOST = 127.0.0.1
-    DB_USER = root
+    DB_HOST = host
+    DB_USER = user
     DB_PORT = 3306
-    DB_PASS = root
-    DB_NAME = TicketingBoxOffice
+    DB_PASS = password
+    DB_NAME = name
     JWT_SECRET = SECRET
    ```
 
@@ -155,6 +160,13 @@ Ensure you have the following installed on your system:
 - **Express.js** - Web framework
 - **MariaDB** - Relational database
 - **dotenv** - Environment variable management
+- **express-validator** - Request validation
+- **bcrypt** - Password hashing
+- **jsonwebtoken** - Token generator and authentication
+- **moment** - Date and Time handling library
+- **qr-image** - generate image for the qr code
+- **inquirer** - create interactive command-line user interfaces
+- **fs** - generates the qr_code folder and stores the images in it
 
 ## 🔍 Best Practices Followed
 ✔️ Follows MVC architecture  
