@@ -125,7 +125,7 @@ class UserController {
         try {
             const { lastName } = req.params;
             const result = await userService.readUserByLastName(lastName);
-            res.status(200).json({message: "User retrieved successfully", result});
+            //res.status(200).json({message: "User retrieved successfully", result});
         } catch (err) {
             console.error("Error in UserController.readUserByLastName: ", err.message);
             res.status(500).json(err.message);
@@ -255,9 +255,20 @@ class UserController {
             const result = await userService.changePassword(email, oldPassword, newPassword);
             return res.status(200).json({ message: `Password changed successfully`, result: result });
         } catch (err) {
-            //console.error("Error in UserController.changePassword: ", err.message);
+            console.error("Error in UserController.changePassword: ", err.message);
             return res.status(500).json({ message: err.message });
         }
+    }
+
+    static async loadUsersView(req, res){
+        try{
+            const users = await UserService.readUsers();
+            res.render('users', {users: users, message: 'Welcome to csis 228 class'});
+        }catch(err){
+            console.error("Error in UserController.loadUsersView: ", err.message);
+            res.status(500).json(err.message);
+        }
+        
     }
 }
 

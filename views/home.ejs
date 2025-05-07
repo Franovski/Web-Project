@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title || 'Home — TicketHaven' %></title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
+      crossorigin="anonymous"
+    />
+    <style>
+      @media (max-width: 768px) {
+        .hero-section {
+          height: 50vh !important;
+        }
+        .hero-section h1 {
+          font-size: 2rem !important;
+        }
+        .hero-section p {
+          font-size: 1rem !important;
+        }
+      }
+
+      /* Event Card Styling */
+      .event-card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+        border-radius: 16px;
+        overflow: hidden;
+        border: none;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        position: relative;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      .event-card.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Hover effect for event cards */
+      .event-card:hover {
+        transform: translateY(-8px); /* Slight hover effect */
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Gradient overlay on images */
+      .event-image {
+        position: relative;
+        z-index: 1;
+        height: 200px; /* Fixed height for uniformity */
+        width: 100%; /* Ensures the image takes full width */
+        object-fit: cover; /* Ensures image fills the area without distortion */
+      }
+
+      .event-image::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.3),
+          rgba(0, 0, 0, 0.3)
+        );
+        z-index: 2;
+      }
+
+      /* Event Body (Text section) */
+      .event-body {
+        padding: 1.2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* Keeps title, date, and description spaced evenly */
+        height: 100%;
+        background-color: #fff;
+        position: relative;
+        z-index: 3;
+      }
+
+      /* Event title styling */
+      .event-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 10px;
+        transition: color 0.3s ease;
+      }
+
+      /* Event date styling */
+      .event-date {
+        font-size: 1rem;
+        color: #6c757d;
+        margin-bottom: 15px;
+      }
+
+      /* Event description styling */
+      .event-description {
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        margin-top: 0.5rem;
+      }
+
+      /* Button inside the card */
+      .event-card .btn {
+        font-size: 1rem;
+        background-color: rgb(220 53 69);
+        color: white;
+        transition: background-color 0.3s ease;
+        padding: 10px 15px;
+        margin-top: auto;
+      }
+
+      .event-card .btn:hover {
+        background-color: rgb(220 53 69);
+      }
+
+      /* Badge for featured event */
+      .badge {
+        font-size: 0.9rem;
+        background-color: #3498db;
+        color: white;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 3;
+        padding: 5px 10px;
+      }
+
+      /* Media Queries */
+      @media (max-width: 768px) {
+        .event-image {
+          height: 180px;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-dark">
+    <!-- header & nav -->
+    <%- include('partials/header') %>
+
+    <main>
+      <div class="container my-5">
+        <div class="row justify-content-center p-4 pt-lg-5 align-items-center">
+          <div class="col-lg-8 p-3 p-lg-5 pt-lg-3 text-center">
+            <h1 class="display-4 fw-bold lh-1 text-danger">
+              Discover Live Events
+            </h1>
+            <p class="lead text-secondary">
+              Explore concerts, theater shows, and sporting events. Get your
+              tickets directly from the official source with Franovski's Ticket
+              Haven.
+            </p>
+            <div
+              class="d-grid gap-2 d-md-flex justify-content-center mb-4 mb-lg-3"
+            >
+              <a
+                href="/events"
+                class="btn btn-outline-danger btn-lg px-4 me-md-2 fw-bold"
+              >
+                Browse Events
+              </a>
+              <a href="/calendar" class="btn btn-outline-secondary btn-lg px-4">
+                View Calendar
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- START Event Cards Section -->
+      <div class="container pb-5">
+        <h2 class="text-center text-light mb-5">Upcoming Events</h2>
+        <div class="row g-4">
+          <!-- Event 1 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="card event-card">
+              <div class="badge">Featured</div>
+              <img
+                src="/images/photo-1459749411175-04bf5292ceea.jpg"
+                class="card-img-top event-image"
+                alt="Music Concert"
+              />
+              <div class="event-body">
+                <h5 class="event-title">Summer Beats Festival</h5>
+                <p class="event-date">June 15, 2025</p>
+                <p class="event-description">
+                  A night of live performances from top artists and DJs under
+                  the stars. Don’t miss it!
+                </p>
+                <a href="#" class="btn">Get Tickets</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Event 2 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="card event-card">
+              <img
+                src="/images/HD-wallpaper-museum-of-art-visitors-museum-exhibition-art-paintings.jpg"
+                class="card-img-top event-image"
+                alt="Art Exhibition"
+              />
+              <div class="event-body">
+                <h5 class="event-title">Art & Soul Exhibition</h5>
+                <p class="event-date">July 20, 2025</p>
+                <p class="event-description">
+                  Explore stunning contemporary art from global creators in this
+                  visual showcase.
+                </p>
+                <a href="#" class="btn">Get Tickets</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Event 3 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="card event-card">
+              <img
+                src="/images/alexandre-pellaes-6vajp0pscx0-unsplash-1-1.jpg"
+                class="card-img-top event-image"
+                alt="Tech Conference"
+              />
+              <div class="event-body">
+                <h5 class="event-title">FutureTech Conference</h5>
+                <p class="event-date">August 10, 2025</p>
+                <p class="event-description">
+                  Join tech leaders and visionaries to discuss tomorrow’s
+                  innovations today.
+                </p>
+                <a href="#" class="btn">Get Tickets</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END Event Cards Section -->
+    </main>
+
+    <!-- footer -->
+    <%- include('partials/footer') %>
+
+    <script>
+      // Add visibility class to event cards on scroll
+      const cards = document.querySelectorAll(".event-card");
+
+      window.addEventListener("scroll", () => {
+        cards.forEach((card) => {
+          const rect = card.getBoundingClientRect();
+          if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+            card.classList.add("visible");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

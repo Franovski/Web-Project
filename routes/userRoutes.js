@@ -24,6 +24,7 @@ router.get('/passByEmail/:email', validateUserByEmail, UserController.getPasswor
 router.get('/ticket/:id', validateReadUserTickets, UserController.readUserTickets);
 router.get('/role/:role', validateUserByRole, UserController.readUserByRole);
 router.get('/roleById/:id', validateUserRoleById, UserController.readUserRoleById);
+router.get('/view-users' , UserController.loadUsersView);
 router.post('/', validateUser, UserController.create);
 router.post('/login', validateUserLogin, UserController.login);
 router.put('/password/', validateUserChangePassword, UserController.changePassword);
