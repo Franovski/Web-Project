@@ -268,8 +268,29 @@ class UserController {
             console.error("Error in UserController.loadUsersView: ", err.message);
             res.status(500).json(err.message);
         }
-        
     }
+
+    static showLoginForm(req, res) {
+        res.render('signIn.ejs', { error: null });
+      }
+
+    static async loginForm(req, res) {
+       
+        try {
+          const { email, password } = req.body;
+
+          const result = await userService.login(email, password);
+          if (result) {
+            res.render('home.ejs', { title: 'Home' });
+          } else {
+            res.render('signIn.ejs', { error: 'Incorrect email or password.' });
+          }
+        }
+        catch (error) {
+          console.error('Error during login:', error);
+          res.render('signIn.ejs', { error: 'Server error. Please try again.' });
+        }
+      }
 }
 
 module.exports = UserController;

@@ -5,6 +5,7 @@ const { validateEventById, validateEventByName, validateEvent, validateEventBySt
     
 const router = express.Router();
 
+router.get('/viewEvents', EventController.loadEventsView);
 router.get ('/', EventController.readAll);
 router.get ('/:id', validateEventById, EventController.readEventById);
 router.get ('/name/:name', validateEventByName, EventController.readEventByName);

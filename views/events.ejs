@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Events — TicketHaven</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <style>
+        :root {
+          --primary-gradient: linear-gradient(135deg, rgb(220, 53, 69), rgb(33, 37, 41)); /* Danger red and secondary gray */
+          --shadow-intense: 0 10px 30px rgba(0, 0, 0, 0.1);
+          --card-bg: #ffffff;
+          --danger-color: rgb(220, 53, 69); /* Danger red */
+          --secondary-color: rgb(33, 37, 41); /* Secondary dark gray */
+          --light-gray: #f3f4f6; /* Light gray for background */
+        }
+      
+        body {
+          background-color: rgb(33, 37, 41); /* Dark background */
+          color: #ffffff;
+          font-family: 'Inter', sans-serif;
+        }
+      
+        h1.page-title {
+          font-size: 3rem;
+          font-weight: 700;
+          text-align: center;
+          margin-bottom: 2rem;
+          color: white; /* Title color */
+        }
+      
+        .category-header {
+          font-size: 1.5rem;
+          font-weight: 600;
+          padding: 1rem 1.25rem;
+          background-color: var(--danger-color); /* Danger red background */
+          border-left: 5px solid var(--secondary-color);
+          margin-bottom: 1.5rem;
+          color: white; /* White text for contrast */
+        }
+      
+        .events-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+          gap: 2rem;
+        }
+      
+        .event-card {
+          display: flex;
+          flex-direction: column;
+          background: var(--card-bg);
+          border-radius: 1rem;
+          overflow: hidden;
+          box-shadow: var(--shadow-intense);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+      
+        .event-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+        }
+      
+        .event-img {
+          width: 100%;
+          height: 200px;
+          object-fit: cover;
+        }
+      
+        .event-body {
+          padding: 1.25rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          flex-grow: 1;
+        }
+      
+        .event-title {
+          font-size: 1.75rem;
+          font-weight: bold;
+          margin-bottom: 0.5rem;
+          color: var(--secondary-color); /* Secondary color for event title */
+        }
+      
+        .event-date,
+        .event-location {
+          display: flex;
+          align-items: center;
+          font-size: 1rem;
+          color: var(--secondary-color);
+          margin-bottom: 0.5rem;
+        }
+      
+        .event-date i,
+        .event-location i {
+          margin-right: 0.5rem;
+          color: var(--danger-color); /* Danger color for icons */
+        }
+      
+        .event-description {
+          font-size: 1rem;
+          color: #334155;
+          margin-bottom: 1rem;
+        }
+      
+        .card-footer {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1rem;
+          background-color: var(--light-gray);
+          border-radius: 0 0 1rem 1rem;
+        }
+      
+        .price-badge {
+          background: var(--primary-gradient); 
+          color: white;
+          padding: 0.75rem 1rem;
+          border-radius: 1.25rem;
+          font-weight: 600;
+          font-size: 1rem;
+        }
+      
+        .btn-tickets {
+          background: var(--danger-color);
+          border: none;
+          color: white;
+          padding: 0.75rem 1.25rem;
+          border-radius: 1rem;
+          font-weight: 600;
+          font-size: 1rem;
+          transition: background 0.3s;
+        }
+      
+        .btn-tickets:hover {
+          background: rgb(185, 28, 28); /* Darker red for hover effect */
+        }
+      
+        @media (max-width: 768px) {
+          .event-card {
+            flex-direction: column;
+          }
+      
+          .event-img {
+            width: 100%;
+            height: 250px;
+          }
+      
+          .card-footer {
+            margin-top: 1rem;
+          }
+        }
+      </style>      
+      
+  </head>
+
+  <body>
+    <%- include('partials/header') %>
+
+    <main class="container py-5 text-center text-danger">
+      <h1>Featured Events</h1>
+
+      <% if (categories && categories.length) { %>
+        <% categories.forEach(group => { %>
+          <section class="mb-5">
+            <h2 class="category-header"><%= group.category.name %></h2>
+            <div class="events-grid">
+              <% group.events.forEach(event => { %>
+                <div class="event-card">
+                  <img
+                    src="<%= event.image || '/images/alexandre-pellaes-6vajp0pscx0-unsplash-1-1.jpg' %>"
+                    class="event-img"
+                  />
+                  <div class="event-body">
+                    <h3 class="event-title"><%= event.name %></h3>
+                    <div class="event-date">
+                      <i class="bi bi-calendar-event"></i>
+                      <%= new Date(event.date).toLocaleDateString() %>
+                    </div>
+                    <div class="event-location">
+                      <i class="bi bi-geo-alt"></i>
+                      <%= event.location %>
+                    </div>
+                    <p class="event-description">
+                      <%= (event.description || '...').substring(0, 120) %>
+                    </p>
+                  </div>
+                  <div class="card-footer">
+                    <span class="price-badge">
+                      <%= event.price ? '$' + event.price : 'Free' %>
+                    </span>
+                    <a href="/events/<%= event.id %>" class="btn-tickets">
+                      Get Tickets
+                    </a>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+          </section>
+        <% }) %>
+      <% } else { %>
+        <div class="text-center py-5 text-muted">
+          <i class="bi bi-calendar-x display-1 mb-3"></i>
+          <p>No events available at the moment.</p>
+        </div>
+      <% } %>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <!-- Bootstrap JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
