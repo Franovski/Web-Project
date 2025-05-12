@@ -312,23 +312,36 @@ class UserController {
     }
   }
 
+  // Show login form
   static showLoginForm(req, res) {
-    res.render("signIn.ejs", { error: null });
+    const error = req.session.error || null;
+    const remember = req.session.remember || false;
+
+    // Clear session messages after displaying
+    req.session.error = null;
+    req.session.remember = false;
+
+    res.render("signIn.ejs", { error, remember });
   }
 
+  // Handle login form submission
   static async loginForm(req, res) {
-    try {
-      const { email, password } = req.body;
+    const { email, password, remember } = req.body;
 
-      const result = await userService.login(email, password);
-      if (result) {
+    try {
+      const user = await userService.login(email, password);
+
+      if (user) {
         res.render("home.ejs", { title: "Home" });
       } else {
-        res.render("signIn.ejs", { error: "Incorrect email or password." });
+        req.session.error = "Incorrect email or password.";
+        req.session.remember = !!remember;
+        res.redirect("/signIn");
       }
-    } catch (error) {
-      console.error("Error during login:", error);
-      res.render("signIn.ejs", { error: "Server error. Please try again." });
+    } catch {
+      req.session.error = "Incorrect email or password.";
+      req.session.remember = !!remember;
+      res.redirect("/signIn");
     }
   }
 
