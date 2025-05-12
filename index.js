@@ -10,8 +10,12 @@ const EventService = require("./services/eventService");
 const PORT = process.env.PORT;
 
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.set("view engine", "ejs");
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
+
+app.use('/', require('./routes/authRoutes'));
 app.use("/api/categories", require("./routes/categoryRoutes"));
 app.use("/api/events", require("./routes/eventRoutes"));
 app.use("/api/prices", require("./routes/priceRoutes"));
