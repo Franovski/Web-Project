@@ -351,16 +351,30 @@ class UserController {
 
   static async signupForm(req, res) {
     try {
-      const {role, firstName, lastName, email, password, phoneNbr} = req.body;
+      const { role, firstName, lastName, email, password, phoneNbr } = req.body;
       const createdAt = moment().format("YYYY-MM-DD HH:mm:ss");
 
-      let user = new User(null, role, createdAt, firstName, lastName, email, password, phoneNbr);
+      let user = new User(
+        null,
+        role,
+        createdAt,
+        firstName,
+        lastName,
+        email,
+        password,
+        phoneNbr
+      );
       const results = await userService.create(user);
       return res.redirect("/signIn");
     } catch (error) {
       console.error("Error during signup:", error);
+      const errorMessage =
+        error.message === "EMAIL_ALREADY_EXISTS"
+          ? "This email is already registered."
+          : "Registration failed. Please try again.";
+
       return res.render("signUp.ejs", {
-        error: "Registration failed. Please try again.",
+        error: errorMessage,
       });
     }
   }

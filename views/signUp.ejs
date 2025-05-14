@@ -31,7 +31,23 @@
         <h1 class="fw-bold mb-0 fs-2 text-center w-100">Sign up for free</h1>
       </div>
       <div class="modal-body p-3">
-        <!-- Added method and action, plus name attributes for form fields -->
+        <!-- Error Alert -->
+        <% if (typeof error !== 'undefined' && error) { %>
+        <div
+          class="alert alert-danger alert-dismissible fade show"
+          role="alert"
+        >
+          <%= error %>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        <% } %>
+
+        <!-- Signup Form -->
         <form action="/signup" method="POST">
           <!-- Role -->
           <div class="input-group mb-3">
@@ -142,7 +158,6 @@
                 class="form-control rounded-end-3"
                 id="floatingPhone"
                 placeholder="Phone Number"
-                required
               />
               <label for="floatingPhone">Phone Number</label>
             </div>
