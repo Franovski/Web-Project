@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Test Footer & Icons</title>
+    <title>Admin Footer & Icons</title>
 
     <!-- Bootstrap CSS -->
     <link
@@ -14,7 +14,7 @@
       crossorigin="anonymous"
     />
 
-    <!-- Bootstrap Icons (must come after Bootstrap CSS) -->
+    <!-- Bootstrap Icons -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
       rel="stylesheet"
@@ -36,31 +36,39 @@
     </style>
   </head>
   <body>
-    <!-- Your page content would go here -->
+    <!-- Your admin page content would go here -->
 
-    <!-- Footer Partial -->
+    <!-- Admin Footer Partial -->
     <div class="container footer-container">
       <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
           <li class="nav-item">
-            <a href="/" class="nav-link px-2 text-white">Home</a>
+            <a href="/admin" class="nav-link px-2 text-white">Dashboard</a>
           </li>
           <li class="nav-item">
-            <a href="/api/events/viewEvents" class="nav-link px-2 text-white">Events</a>
+            <a href="/admin/events/manage" class="nav-link px-2 text-white"
+              >Manage Events</a
+            >
           </li>
           <li class="nav-item">
-            <a href="/pricing" class="nav-link px-2 text-white">Tickets</a>
+            <a href="/admin/users" class="nav-link px-2 text-white"
+              >Manage Users</a
+            >
           </li>
           <li class="nav-item">
-            <a href="/faq" class="nav-link px-2 text-white">FAQs</a>
+            <a href="/admin/reports" class="nav-link px-2 text-white"
+              >Reports</a
+            >
           </li>
           <li class="nav-item">
-            <a href="/about" class="nav-link px-2 text-white">About</a>
+            <a href="/admin/settings" class="nav-link px-2 text-white"
+              >Settings</a
+            >
           </li>
         </ul>
         <div class="d-flex justify-content-center mb-3">
           <a
-            href="https://www.instagram.com/"
+            href="https://www.instagram.com/tickethaven"
             target="_blank"
             class="me-3 text-white"
             aria-label="Instagram"
@@ -68,7 +76,7 @@
             <i class="bi bi-instagram" style="font-size: 1.5rem"></i>
           </a>
           <a
-            href="https://www.facebook.com/"
+            href="https://www.facebook.com/tickethaven"
             target="_blank"
             class="text-white"
             aria-label="Facebook"
@@ -77,14 +85,14 @@
           </a>
         </div>
         <p class="text-center text-white">
-          © <%= new Date().getFullYear() %> TicketHaven by Franovski. All rights
-          reserved.
+          © <%= new Date().getFullYear() %> TicketHaven Admin by Franovski. All
+          rights reserved.
         </p>
       </footer>
     </div>
-    <!-- /Footer Partial -->
+    <!-- /Admin Footer Partial -->
 
-    <!-- Optional Bootstrap JS -->
+    <!-- Bootstrap JS Bundle -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ho+j7jyWK8fNQe+A12hVt6U3s9Q8wlJ/RkdIDI0vQzktJFl/uOyy6I7/j4scv6p1"

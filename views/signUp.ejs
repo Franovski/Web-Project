@@ -49,23 +49,8 @@
 
         <!-- Signup Form -->
         <form action="/signup" method="POST">
-          <!-- Role -->
-          <div class="input-group mb-3">
-            <span class="input-group-text bg-white rounded-start-3">
-              <i class="bi bi-person-badge"></i>
-            </span>
-            <div class="form-floating flex-grow-1 mb-0">
-              <input
-                type="text"
-                name="role"
-                class="form-control rounded-end-3"
-                id="floatingRole"
-                placeholder="Role"
-                required
-              />
-              <label for="floatingRole">Customer/Admin</label>
-            </div>
-          </div>
+          <!-- Force every new signup to Customer -->
+          <input type="hidden" name="role" value="Customer" />
 
           <!-- First Name -->
           <div class="input-group mb-3">
