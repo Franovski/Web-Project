@@ -266,7 +266,7 @@ class EventController {
 
     try {
       await eventService.update(updatedEvent);
-      res.redirect("/admin/viewEvents");
+      res.redirect("/menageEvents");
     } catch (err) {
       console.error("Error in updateEvent:", err.message);
       res.status(500).render("error", { message: "Failed to update event." });

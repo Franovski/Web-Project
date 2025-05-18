@@ -16,9 +16,6 @@
         color: #f8f9fa;
         margin: 0;
       }
-      .highlight {
-        color: #ffc107;
-      }
       .wrapper {
         min-height: 100%;
         display: flex;
@@ -26,14 +23,17 @@
       }
       .content {
         flex: 1;
+        padding-top: 40px;
+        padding-bottom: 40px;
       }
     </style>
   </head>
   <body>
     <div class="wrapper">
-      <div class="container my-5 content">
-        <%- include("partials/adminHeader") %>
+      <!-- Header moved outside container -->
+      <%- include("partials/adminHeader") %>
 
+      <div class="container content">
         <h1 class="text-center mb-5">
           Edit Profile:
           <span class="text-danger"><%= user.firstName %></span>
@@ -43,7 +43,7 @@
         <!-- User Info Card -->
         <div class="card bg-dark text-light mb-5 shadow">
           <div class="card-body">
-            <h4 class="highlight mb-3">User Information</h4>
+            <h4 class="text-warning mb-3">User Information</h4>
             <ul class="mb-0">
               <li><b>Role:</b> <%= user.role %></li>
               <li><b>First Name:</b> <%= user.firstName %></li>

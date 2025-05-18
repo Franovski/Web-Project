@@ -39,6 +39,7 @@ app.get("/", async (req, res) => {
 app.get('/createEvent', EventController.createEventForm)
 app.get('/viewCustomers', UserController.loadCustomersView);
 app.get('/viewEvents', EventController.loadEventsView);
+app.get('/menageEvents', EventController.loadAdminEvents);
 
 app.get("/Admin", (req, res) => {
     try{
