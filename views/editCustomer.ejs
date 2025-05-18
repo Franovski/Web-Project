@@ -54,6 +54,10 @@
           </div>
         </div>
 
+        <% if (typeof errorMessage !== 'undefined') { %>
+        <div class="alert alert-danger" role="alert"><%= errorMessage %></div>
+        <% } %>
+
         <!-- Edit Form -->
         <form action="/api/users/updateCustomer/<%= user.id %>" method="post">
           <div class="mb-4">

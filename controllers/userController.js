@@ -348,12 +348,28 @@ class UserController {
 
     try {
       await userService.update(updatedUser);
+      // On success, redirect to customers list
       res.redirect("/viewCustomers");
     } catch (err) {
       console.error("Error in updateCustomer:", err.message);
-      res
-        .status(500)
-        .render("error", { message: "Failed to update customer." });
+
+      // Check if error is duplicate email error
+      if (
+        err.message.includes("Duplicate entry") &&
+        err.message.includes("email")
+      ) {
+        // Render the same editCustomer view with error message and original user data (to repopulate form)
+        return res.status(400).render("editCustomer", {
+          user: updatedUser,
+          errorMessage: "Email already exists. Please use a different email.",
+        });
+      }
+
+      // Other errors
+      res.status(500).render("editCustomer", {
+        user: updatedUser,
+        errorMessage: "Failed to update customer. Please try again.",
+      });
     }
   }
 
