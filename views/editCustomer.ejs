@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Edit Customer - TicketHaven</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <style>
+      html,
+      body {
+        height: 100%;
+        background-color: #121212;
+        color: #f8f9fa;
+        margin: 0;
+      }
+      .highlight {
+        color: #ffc107;
+      }
+      .wrapper {
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .content {
+        flex: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="container my-5 content">
+        <%- include("partials/adminHeader") %>
+
+        <h1 class="text-center mb-5">
+          Edit Profile:
+          <span class="text-danger"><%= user.firstName %></span>
+          <span class="text-danger"><%= user.lastName %></span>
+        </h1>
+
+        <!-- User Info Card -->
+        <div class="card bg-dark text-light mb-5 shadow">
+          <div class="card-body">
+            <h4 class="highlight mb-3">User Information</h4>
+            <ul class="mb-0">
+              <li><b>Role:</b> <%= user.role %></li>
+              <li><b>First Name:</b> <%= user.firstName %></li>
+              <li><b>Last Name:</b> <%= user.lastName %></li>
+              <li><b>Email:</b> <%= user.email %></li>
+              <li><b>Phone Number:</b> <%= user.phoneNbr %></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Edit Form -->
+        <form action="/api/users/updateCustomer/<%= user.id %>" method="post">
+          <div class="mb-4">
+            <label for="role" class="form-label">Role</label>
+            <input
+              type="text"
+              name="role"
+              id="role"
+              value="<%= user.role %>"
+              class="form-control bg-dark text-light"
+              placeholder="Role"
+            />
+          </div>
+
+          <div class="mb-4">
+            <label for="firstName" class="form-label">First Name</label>
+            <input
+              type="text"
+              name="firstName"
+              id="firstName"
+              value="<%= user.firstName %>"
+              class="form-control bg-dark text-light"
+              placeholder="First Name"
+            />
+          </div>
+
+          <div class="mb-4">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input
+              type="text"
+              name="lastName"
+              id="lastName"
+              value="<%= user.lastName %>"
+              class="form-control bg-dark text-light"
+              placeholder="Last Name"
+            />
+          </div>
+
+          <div class="mb-4">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              value="<%= user.email %>"
+              class="form-control bg-dark text-light"
+              placeholder="Email"
+            />
+          </div>
+
+          <div class="mb-4">
+            <label for="phoneNbr" class="form-label">Phone Number</label>
+            <input
+              type="text"
+              name="phoneNbr"
+              id="phoneNbr"
+              value="<%= user.phoneNbr %>"
+              class="form-control bg-dark text-light"
+              placeholder="Phone Number"
+            />
+          </div>
+
+          <button type="submit" class="btn btn-outline-warning w-100">
+            Save Changes
+          </button>
+        </form>
+      </div>
+
+      <!-- Sticky Footer -->
+      <footer class="mt-auto"><%- include("partials/adminFooter") %></footer>
+    </div>
+  </body>
+</html>

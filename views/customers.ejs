@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Manage Customers - TicketHaven</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <style>
+      body {
+        background-color: #121212;
+        color: #f8f9fa;
+      }
+      .highlight {
+        color: #ffc107;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center mb-4"><%= message %></h1>
+      <div class="table-responsive">
+        <table class="table table-striped table-dark table-hover">
+          <thead>
+            <tr>
+              <th class="text-success">ID</th>
+              <th class="text-danger">Role</th>
+              <th class="text-primary">First Name</th>
+              <th class="text-warning">Last Name</th>
+              <th class="text-info">Email</th>
+              <th style="color: pink">Phone Number</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (users.length > 0) { %> <% users.forEach(user => { %>
+            <tr>
+              <td><%= user.id %></td>
+              <td><%= user.role %></td>
+              <td><%= user.firstName %></td>
+              <td><%= user.lastName %></td>
+              <td><%= user.email %></td>
+              <td><%= user.phoneNbr %></td>
+              <td>
+                <a
+                  href="/api/users/editCustomer/<%= user.id %>"
+                  class="btn btn-outline-warning btn-sm"
+                  >Edit</a
+                >
+              </td>
+            </tr>
+            <% }); %> <% } else { %>
+            <tr>
+              <td colspan="7" class="text-center">No customers found.</td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

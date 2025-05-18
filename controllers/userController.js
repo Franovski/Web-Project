@@ -299,16 +299,61 @@ class UserController {
     }
   }
 
-  static async loadUsersView(req, res) {
+  static async loadCustomersView(req, res) {
     try {
-      const users = await userService.readUsers();
-      res.render("users", {
-        users: users,
-        message: "Welcome to csis 228 class",
+      const users = await userService.readAll();
+      const customers = users.filter((user) => user.role === "Customer");
+      res.render("customers", {
+        users: customers,
+        message: "TicketHaven Customer List: ",
       });
     } catch (err) {
-      console.error("Error in UserController.loadUsersView: ", err.message);
-      res.status(500).json(err.message);
+      console.error(err);
+      res.status(500).send("Server error loading customers.");
+    }
+  }
+
+  static async loadCustomerEditForm(req, res) {
+    const userId = parseInt(req.params.id, 10);
+    if (isNaN(userId)) {
+      return res.status(400).send("Invalid user ID");
+    }
+
+    try {
+      const user = await userService.readUserById(userId);
+      if (!user || user.role !== "Customer") {
+        return res.status(404).send("Customer not found");
+      }
+      res.render("editCustomer", { user, message: "Edit Customer Profile:" });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Server error loading customer.");
+    }
+  }
+
+  static async updateCustomer(req, res) {
+    const userId = parseInt(req.params.id, 10);
+    if (isNaN(userId)) {
+      return res.status(400).send("Invalid user ID");
+    }
+
+    const updatedUser = {
+      id: userId,
+      role: req.body.role,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      phoneNbr: req.body.phoneNbr,
+    };
+
+    try {
+      await userService.update(updatedUser);
+      res.redirect("/api/users/viewCustomers");
+    } catch (err) {
+      console.error("Error in updateCustomer:", err.message);
+      res
+        .status(500)
+        .render("error", { message: "Failed to update customer." });
     }
   }
 

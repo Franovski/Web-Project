@@ -49,13 +49,11 @@ class UserRepository {
   static async update(user) {
     try {
       let sql = `UPDATE user
-            SET role = ?, created_at = ?, first_name = ?, last_name = ?, email = ?, phone_number = ?
+            SET role = ?, first_name = ?, last_name = ?, email = ?, phone_number = ?
             WHERE user_id = ?`;
       // const hashedPassword = await Hashing.hashPassword(user.password);
-      const dateFormatted = await Utils.formatDateSQL(user.createdAt);
       const { affectedRows } = await db.query(sql, [
         user.role,
-        dateFormatted,
         user.firstName,
         user.lastName,
         user.email,
