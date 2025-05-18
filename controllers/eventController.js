@@ -163,9 +163,9 @@ class EventController {
     try {
       const cats = await categoryService.readAll();
       //console.log("Categories fetched:", cats);
-  
+
       const categories = [];
-  
+
       for (const cat of cats) {
         // Convert the string ID to an integer
         const categoryId = parseInt(cat.id, 10);
@@ -173,7 +173,7 @@ class EventController {
           console.warn("Invalid category ID:", cat.id);
           continue;
         }
-  
+
         // Fetch events for this category
         let events = [];
         try {
@@ -183,19 +183,80 @@ class EventController {
           console.warn(`No events for category ${categoryId}`, err);
           continue;
         }
-  
+
         if (events.length) {
           categories.push({ category: cat, events });
         }
       }
-  
+
       return res.render("events", { categories });
     } catch (error) {
       console.error("Error fetching category events:", error);
       return res.status(500).send("Internal Server Error");
     }
   }
-  
+
+  static async showEventForm(req, res) {
+    try {
+      const cats = await categoryService.readAll(); // ← fetch categories
+      return res.render("createEvent", {
+        error: null, // ← always pass error
+        categories: cats, // ← and categories
+      });
+    } catch (error) {
+      console.error("Error rendering event form:", error);
+      return res.status(500).send("Internal Server Error");
+    }
+  }
+
+  static async createEventForm(req, res) {
+    try {
+      let {
+        name,
+        date,
+        time,
+        location,
+        capacity,
+        status,
+        description,
+        image,
+        categoryId,
+      } = req.body;
+
+      // Normalize empty optional fields to `null`
+      if (!description || description.trim() === "") {
+        description = null;
+      }
+
+      if (!image || image.trim() === "") {
+        image = null;
+      }
+
+      const event = new Event(
+        0,
+        name,
+        date,
+        time,
+        location,
+        capacity,
+        status,
+        description,
+        image,
+        categoryId
+      );
+
+      const result = await eventService.create(event);
+
+      // On success, redirect or render success message
+      return res.redirect("/api/events/viewEvents"); 
+    } catch (error) {
+      console.error("Error during event creation:", error);
+      return res.render("createEvent.ejs", {
+        error: "Event creation failed. Please try again.",
+        categories: await categoryService.readAll(),
+      });
+    }
+  }
 }
 
 module.exports = EventController;

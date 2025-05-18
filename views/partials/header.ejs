@@ -1,9 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- … meta tags, title, Bootstrap CSS, etc. … -->
+    <!-- Meta tags, title, Bootstrap CSS -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TicketHaven</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
+      crossorigin="anonymous"
+    />
+
     <style>
-      /* if you want “flat” nav-links without default padding/background */
+      /* Minimal styling for nav links */
       .nav-link {
         background: none !important;
         border: none !important;
@@ -15,28 +25,6 @@
       .nav-link:active {
         outline: none !important;
         box-shadow: none !important;
-      }
-
-      /* Red background for entire dropdown */
-      .dropdown-menu {
-        background-color: rgb(220, 53, 69); /* Bootstrap's "danger" red */
-      }
-
-      /* Ensure dropdown items have white text */
-      .dropdown-menu .dropdown-item {
-        background-color: white;
-        color: #212529;
-      }
-
-      /* Hover effect with a darker red */
-      .dropdown-menu .dropdown-item:hover {
-        background-color: rgb(185, 28, 28); /* Darker red on hover */
-        color: rgb(108, 117, 125);
-      }
-
-      /* Optional: white line for divider */
-      .dropdown-menu .dropdown-divider {
-        border-color: rgb(108, 117, 125);
       }
     </style>
   </head>
@@ -75,7 +63,9 @@
         <!-- Nav links -->
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
           <li class="nav-item">
-            <a href="/api/events/viewEvents" class="nav-link text-white">Events</a>
+            <a href="/api/events/viewEvents" class="nav-link text-white"
+              >Events</a
+            >
           </li>
           <li class="nav-item">
             <a href="/locations" class="nav-link text-white">Tickets</a>
@@ -85,43 +75,15 @@
           </li>
         </ul>
 
-        <!-- Account / Buy Tickets -->
+        <!-- Sign In / Sign Up -->
         <div class="col-md-3 text-end">
-          <div class="dropdown d-inline">
-            <button
-              class="btn btn-secondary dropdown-toggle me-2"
-              type="button"
-              id="accountDropdown"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Account
-            </button>
-            <ul
-              class="dropdown-menu dropdown-menu-end"
-              aria-labelledby="accountDropdown"
-            >
-              <li><a class="dropdown-item" href="/signin">Login</a></li>
-              <li><a class="dropdown-item" href="/signup">Sign Up</a></li>
-              <li><hr class="dropdown-divider" /></li>
-              <li><a class="dropdown-item" href="/profile">Profile</a></li>
-            </ul>
-          </div>
-
-          <a href="/signup" class="btn btn-danger" role="button">Buy Tickets</a>
+          <a href="/signin" class="btn btn-outline-light me-2">Sign In</a>
+          <a href="/signup" class="btn btn-danger">Sign Up</a>
         </div>
       </header>
     </div>
 
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Manually initialize dropdowns to ensure they work -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(function (el) {
-          new bootstrap.Dropdown(el);
-        });
-      });
-    </script>
   </body>
 </html>

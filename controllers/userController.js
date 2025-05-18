@@ -301,7 +301,7 @@ class UserController {
 
   static async loadUsersView(req, res) {
     try {
-      const users = await UserService.readUsers();
+      const users = await userService.readUsers();
       res.render("users", {
         users: users,
         message: "Welcome to csis 228 class",
@@ -312,36 +312,48 @@ class UserController {
     }
   }
 
-  // Show login form
+  // Show login page (GET /signin)
   static showLoginForm(req, res) {
-    const error = req.session.error || null;
-    const remember = req.session.remember || false;
-
-    // Clear session messages after displaying
-    req.session.error = null;
-    req.session.remember = false;
-
-    res.render("signIn.ejs", { error, remember });
+    return res.render("signIn.ejs", {
+      error: null,
+      email: "",
+    });
   }
 
-  // Handle login form submission
+  // Handle login (POST /signin)
   static async loginForm(req, res) {
-    const { email, password, remember } = req.body;
-
     try {
-      const user = await userService.login(email, password);
+      const { email, password } = req.body;
+      const isValid = await userService.login(email, password);
 
-      if (user) {
-        res.render("home.ejs", { title: "Home" });
-      } else {
-        req.session.error = "Incorrect email or password.";
-        req.session.remember = !!remember;
-        res.redirect("/signIn");
+      if (!isValid) {
+        // login failed → re-render AND return immediately
+        return res.render("signIn.ejs", {
+          error: "Incorrect email or password.",
+          email,
+        });
       }
-    } catch {
-      req.session.error = "Incorrect email or password.";
-      req.session.remember = !!remember;
-      res.redirect("/signIn");
+
+      // login succeeded → fetch full user
+      const user = await userService.readUserByEmail(email);
+
+      // role-based redirect; return immediately in every case:
+      if (user[0].role === "Admin") {
+        return res.redirect("/Admin");
+      }
+      if (user[0].role === "Customer") {
+        return res.redirect("/Customer");
+      }
+
+      // unknown role → fallback redirect
+      return res.redirect("/");
+    } catch (err) {
+      console.error("Error during login:", err);
+      // on error → render sign-in again
+      return res.render("signIn.ejs", {
+        error: "Server error. Please try again.",
+        email: req.body.email || "",
+      });
     }
   }
 
@@ -351,10 +363,18 @@ class UserController {
 
   static async signupForm(req, res) {
     try {
-      const { role, firstName, lastName, email, password, phoneNbr } = req.body;
+      // Destructure everything — note use of `let` so we can reassign below
+      let { role, firstName, lastName, email, password, phoneNbr } = req.body;
+
+      // If phoneNbr is empty (user left it blank), treat it as null
+      if (!phoneNbr || phoneNbr.trim() === "") {
+        phoneNbr = null;
+      }
+
       const createdAt = moment().format("YYYY-MM-DD HH:mm:ss");
 
-      let user = new User(
+      // Build your User model with phoneNbr now either a string or null
+      const user = new User(
         null,
         role,
         createdAt,
@@ -364,7 +384,8 @@ class UserController {
         password,
         phoneNbr
       );
-      const results = await userService.create(user);
+
+      await userService.create(user);
       return res.redirect("/signIn");
     } catch (error) {
       console.error("Error during signup:", error);

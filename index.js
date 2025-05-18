@@ -1,7 +1,7 @@
 const express = require("express");
-const session = require("express-session");
 const app = express();
 const bodyParser = require("body-parser");
+const path = require("path");
 const cors = require("cors");
 require("dotenv").config();
 const pool = require("./config/db");
@@ -13,15 +13,8 @@ const PORT = process.env.PORT;
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(
-  session({
-    secret: "your_secret_key",
-    resave: false,
-    saveUninitialized: true,
-  })
-);
-app.set("view engine", "ejs");
-//app.use(bodyParser.json());
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 app.use('/', require('./routes/authRoutes'));
 app.use("/api/categories", require("./routes/categoryRoutes"));
@@ -43,13 +36,24 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.get("/signup", (req, res) => {
-  res.render("partials/signup");
+app.get ('/createEvent' , (req , res) => {
+    try{
+    res.render('createEvent.ejs');
+    }catch(e){
+        console.error('Error fetching Events:', error);
+        res.status(500).send('Internal Server Error');  
+    }
 });
 
-app.get("/signin", (req, res) => {
-    res.render("partials/signin");
-  });
+app.get("/Admin", (req, res) => {
+    try{
+    res.render("admin.ejs");
+    }
+    catch (error) {
+        console.error("Error rendering admin page:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

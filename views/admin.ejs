@@ -2,194 +2,160 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title><%= title || 'Admin Dashboard — TicketHaven' %></title>
-    <!-- Bootstrap CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard — TicketHaven</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
       rel="stylesheet"
-      integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
       crossorigin="anonymous"
     />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
     <style>
-      body.bg-dark {
-        background-color: #121212 !important;
-      }
-      @media (max-width: 768px) {
-        .hero-section {
-          height: 50vh !important;
-        }
-        .hero-section h1 {
-          font-size: 2rem !important;
-        }
-        .hero-section p {
-          font-size: 1rem !important;
-        }
+      :root {
+        --primary-color: #dc3545;
+        --secondary-color: #6c757d;
+        --accent-color: #ffc107;
       }
 
-      /* Enhanced Event Cards (Glassmorphism Style) */
-      .event-glass-card {
+      body {
+        background-color: #121212;
+        color: #f8f9fa;
+        font-family: "Segoe UI", system-ui, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      main {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+      }
+
+      .card {
+        border-radius: 1.25rem;
+        border: none;
         background: rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(10px);
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3),
+          0 4px 6px -4px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
       }
 
-      .event-glass-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.35),
+          0 8px 10px -6px rgba(0, 0, 0, 0.3);
       }
 
-      .event-img-wrapper {
-        position: relative;
-        height: 220px;
-        overflow: hidden;
-      }
-
-      .event-img-wrapper img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        filter: brightness(0.8);
-      }
-
-      .event-badge {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        background: #dc3545;
-        color: white;
-        font-size: 0.85rem;
+      .auth-btn {
+        background: linear-gradient(135deg, var(--primary-color), #7b1c1c);
+        border: none;
+        border-radius: 0.75rem;
+        padding: 1rem 2rem;
         font-weight: 600;
-        padding: 6px 12px;
-        border-radius: 12px;
-        z-index: 2;
-      }
-
-      .event-glass-body {
-        padding: 1.5rem;
-        color: #f8f9fa;
-        flex-grow: 1;
+        letter-spacing: 0.5px;
+        color: #fff;
         display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        transition: all 0.3s ease;
       }
 
-      .event-glass-title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
+      .auth-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(220, 53, 69, 0.3);
       }
 
-      .event-glass-date {
-        font-size: 0.95rem;
-        color: #ffc107;
-        margin-bottom: 0.75rem;
+      .welcome-message {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--accent-color)
+        );
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+        font-size: 3.5rem;
+        background-size: 200% 200%;
+        animation: gradient-shift 6s ease infinite;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
 
-      .event-glass-description {
-        font-size: 1rem;
-        color: #ced4da;
-        line-height: 1.5;
+      @keyframes gradient-shift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
       }
 
-      /* Admin Controls */
-      .admin-actions {
-        margin-bottom: 2rem;
-        text-align: center;
+      .action-buttons .col-md-4 {
+        transition: transform 0.3s ease;
       }
-      .admin-actions .btn {
-        margin: 0 10px 10px 10px;
+
+      .action-buttons .col-md-4:hover {
+        transform: scale(1.02);
       }
     </style>
   </head>
-  <body class="bg-dark">
-    <!-- header & nav -->
+  <body>
+    <!-- Include Header Partial -->
     <%- include('partials/adminHeader') %>
 
-    <main>
-      <div class="container my-5">
-        <h1 class="text-danger text-center mb-4">Admin Dashboard</h1>
-
-        <div class="admin-actions">
-          <a href="/admin/events/create" class="btn btn-danger btn-lg fw-bold">
-            + Create New Event
+    <div class="container py-5">
+      <!-- Action Buttons -->
+      <div class="row mb-5 g-4 action-buttons text-center">
+        <div class="col-md-4">
+          <a href="/createEvent" class="auth-btn">
+            <i class="bi bi-calendar-plus fs-5"></i>
+            Create New Event
           </a>
-          <a
-            href="/admin/events/manage"
-            class="btn btn-outline-danger btn-lg fw-bold"
-          >
+        </div>
+        <div class="col-md-4">
+          <a href="#" class="auth-btn">
+            <i class="bi bi-pencil-square fs-5"></i>
             Manage Events
           </a>
-          <a
-            href="/admin/users"
-            class="btn btn-outline-secondary btn-lg fw-bold"
-          >
+        </div>
+        <div class="col-md-4">
+          <a href="#" class="auth-btn">
+            <i class="bi bi-people fs-5"></i>
             Manage Users
           </a>
         </div>
+      </div>
+    </div>
 
-        <h2 class="text-light mb-4">Upcoming Events</h2>
-
-        <div class="row g-4">
-          <!-- Example Event Card -->
-          <% upcomingEvents.forEach(event => { %>
-          <div class="col-md-6 col-lg-4">
-            <div class="event-glass-card">
-              <div class="event-img-wrapper">
-                <img src="<%= event.imageUrl %>" alt="<%= event.title %>" />
-                <% if (event.isFeatured) { %>
-                <span class="event-badge">Featured</span>
-                <% } %>
-              </div>
-              <div class="event-glass-body">
-                <h5 class="event-glass-title"><%= event.title %></h5>
-                <p class="event-glass-date"><%= event.dateFormatted %></p>
-                <p class="event-glass-description"><%= event.description %></p>
-                <div class="d-flex justify-content-between mt-3">
-                  <a
-                    href="/admin/events/edit/<%= event.id %>"
-                    class="btn btn-sm btn-outline-warning"
-                    >Edit</a
-                  >
-                  <form
-                    action="/admin/events/delete/<%= event.id %>"
-                    method="POST"
-                    onsubmit="return confirm('Are you sure?');"
-                  >
-                    <button type="submit" class="btn btn-sm btn-outline-danger">
-                      Delete
-                    </button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-          <% }) %>
-        </div>
+    <!-- Welcome Message -->
+    <main>
+      <div class="card p-5 text-center w-100" style="max-width: 800px">
+        <h1 class="welcome-message mb-3">🎫 Welcome to the Admin Dashboard</h1>
+        <p class="text-light fs-4">
+          Use the tools above to manage events, users, and create amazing
+          experiences.
+        </p>
       </div>
     </main>
 
-    <!-- footer -->
+    <!-- Include Footer Partial -->
     <%- include('partials/adminFooter') %>
 
-    <script>
-      // Optional: Reveal effect on scroll
-      const cards = document.querySelectorAll(".event-glass-card");
-
-      window.addEventListener("scroll", () => {
-        cards.forEach((card) => {
-          const rect = card.getBoundingClientRect();
-          if (rect.top <= window.innerHeight - 100) {
-            card.classList.add("visible");
-          }
-        });
-      });
-    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

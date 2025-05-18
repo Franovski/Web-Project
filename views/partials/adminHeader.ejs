@@ -1,137 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <!-- … meta tags, title, Bootstrap CSS, etc. … -->
-    <style>
-      /* Flat nav-links without default padding/background */
-      .nav-link {
-        background: none !important;
-        border: none !important;
-        box-shadow: none !important;
-        padding: 0.5rem 1rem;
-      }
-      .nav-link:focus,
-      .nav-link:focus-visible,
-      .nav-link:active {
-        outline: none !important;
-        box-shadow: none !important;
-      }
-
-      /* Red background for entire dropdown */
-      .dropdown-menu {
-        background-color: rgb(220, 53, 69); /* Bootstrap's "danger" red */
-      }
-
-      /* Ensure dropdown items have white text */
-      .dropdown-menu .dropdown-item {
-        background-color: white;
-        color: #212529;
-      }
-
-      /* Hover effect with a darker red */
-      .dropdown-menu .dropdown-item:hover {
-        background-color: rgb(185, 28, 28); /* Darker red on hover */
-        color: rgb(108, 117, 125);
-      }
-
-      /* Optional: white line for divider */
-      .dropdown-menu .dropdown-divider {
-        border-color: rgb(108, 117, 125);
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <header
-        class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom"
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
+  <div class="container">
+    <!-- Brand -->
+    <div class="col-md-3 mb-2 mb-md-0">
+      <a
+        href="/"
+        class="d-inline-flex align-items-center text-danger text-decoration-none"
       >
-        <!-- Brand -->
-        <div class="col-md-3 mb-2 mb-md-0">
-          <a
-            href="/admin"
-            class="d-inline-flex align-items-center text-secondary text-decoration-none"
-          >
-            <svg
-              class="bi"
-              width="40"
-              height="32"
-              role="img"
-              aria-label="TicketHaven Admin"
-            >
-              <use xlink:href="#bootstrap"></use>
-            </svg>
-            <img
-              src="/images/istockphoto-1414997110-612x612.jpg"
-              alt="TicketHaven Logo"
-              width="32"
-              height="32"
-              class="me-2 rounded-circle"
-              style="object-fit: cover"
-            />
-            <span class="fs-4 fw-bold ms-2 text-danger">TicketHaven Admin</span>
-          </a>
-        </div>
-
-        <!-- Nav links -->
-        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-          <li class="nav-item">
-            <a href="/admin/events/manage" class="nav-link text-white"
-              >Manage Events</a
-            >
-          </li>
-          <li class="nav-item">
-            <a href="/admin/users" class="nav-link text-white">Manage Users</a>
-          </li>
-          <li class="nav-item">
-            <a href="/admin/reports" class="nav-link text-white">Reports</a>
-          </li>
-        </ul>
-
-        <!-- Account / Admin Actions -->
-        <div class="col-md-3 text-end">
-          <div class="dropdown d-inline me-2">
-            <button
-              class="btn btn-secondary dropdown-toggle"
-              type="button"
-              id="adminAccountDropdown"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Admin Account
-            </button>
-            <ul
-              class="dropdown-menu dropdown-menu-end"
-              aria-labelledby="adminAccountDropdown"
-            >
-              <li>
-                <a class="dropdown-item" href="/admin/profile">Profile</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="/admin/settings">Settings</a>
-              </li>
-              <li><hr class="dropdown-divider" /></li>
-              <li><a class="dropdown-item" href="/logout">Logout</a></li>
-            </ul>
-          </div>
-
-          <a href="/admin/events/create" class="btn btn-danger" role="button"
-            >+ Create Event</a
-          >
-        </div>
-      </header>
+        <svg
+          class="bi"
+          width="40"
+          height="32"
+          role="img"
+          aria-label="TicketHaven"
+        >
+          <use xlink:href="#bootstrap"></use>
+        </svg>
+        <img
+          src="/images/istockphoto-1414997110-612x612.jpg"
+          alt="TicketHaven Logo"
+          width="32"
+          height="32"
+          class="me-2 rounded-circle"
+          style="object-fit: cover"
+        />
+        <span class="fs-4 fw-bold ms-2">TicketHaven Admin</span>
+      </a>
     </div>
-
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Initialize dropdowns -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        document
-          .querySelectorAll('[data-bs-toggle="dropdown"]')
-          .forEach(function (el) {
-            new bootstrap.Dropdown(el);
-          });
-      });
-    </script>
-  </body>
-</html>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="/Admin">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="/api/events/viewEvents">Events</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Users</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
