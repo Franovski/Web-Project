@@ -6,8 +6,8 @@ const cors = require("cors");
 require("dotenv").config();
 const pool = require("./config/db");
 const ejs = require("ejs");
-const UserService = require("./services/userService");
-const EventService = require("./services/eventService");
+const UserController = require("./controllers/userController");
+const EventController = require("./controllers/eventController");
 const PORT = process.env.PORT;
 
 app.use(cors());
@@ -36,14 +36,9 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.get ('/createEvent' , (req , res) => {
-    try{
-    res.render('createEvent.ejs');
-    }catch(e){
-        console.error('Error fetching Events:', error);
-        res.status(500).send('Internal Server Error');  
-    }
-});
+app.get('/createEvent', EventController.createEventForm)
+app.get('/viewCustomers', UserController.loadCustomersView);
+app.get('/viewEvents', EventController.loadEventsView);
 
 app.get("/Admin", (req, res) => {
     try{

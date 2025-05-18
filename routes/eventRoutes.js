@@ -7,6 +7,9 @@ const router = express.Router();
 
 router.get('/viewEvents', EventController.loadEventsView);
 router.get('/createEvent', EventController.showEventForm);
+router.get('/admin/viewEvents', EventController.loadAdminEvents);
+router.get('/admin/events/edit/:id', EventController.loadEditEventPage);
+router.post('/admin/events/update/:id', EventController.updateEvent);
 router.post('/createEvent', validateEvent, EventController.createEventForm);
 router.get ('/', EventController.readAll);
 router.get ('/:id', validateEventById, EventController.readEventById);

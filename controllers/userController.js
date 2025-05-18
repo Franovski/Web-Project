@@ -348,7 +348,7 @@ class UserController {
 
     try {
       await userService.update(updatedUser);
-      res.redirect("/api/users/viewCustomers");
+      res.redirect("/viewCustomers");
     } catch (err) {
       console.error("Error in updateCustomer:", err.message);
       res

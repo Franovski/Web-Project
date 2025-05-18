@@ -196,13 +196,88 @@ class EventController {
     }
   }
 
+  // controllers/eventController.js
+  static async loadAdminEvents(req, res) {
+    try {
+      const cats = await categoryService.readAll();
+      const categories = [];
+
+      for (const cat of cats) {
+        const categoryId = parseInt(cat.id, 10);
+        if (isNaN(categoryId)) continue;
+
+        let events = [];
+        try {
+          events = await eventService.readEventByCategoryId(categoryId);
+        } catch (err) {
+          continue;
+        }
+
+        if (events.length) {
+          categories.push({ category: cat, events });
+        }
+      }
+
+      res.render("adminEvents", { categories });
+    } catch (err) {
+      console.error("Failed to load admin events view:", err);
+      res.status(500).send("Internal Server Error");
+    }
+  }
+
+  // Load the edit page
+  static async loadEditEventPage(req, res) {
+    const id = parseInt(req.params.id, 10);
+    if (isNaN(id)) {
+      return res.status(400).send("Invalid event ID");
+    }
+
+    try {
+      const event = await eventService.readEventById(id);
+      if (!event) {
+        return res.status(404).send("Event not found");
+      }
+      // render the edit form view and pass the event
+      return res.render("editEvent", { event });
+    } catch (err) {
+      console.error("Error loading edit page:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+  }
+
+  static async updateEvent(req, res) {
+    const eventId = parseInt(req.params.id, 10);
+    if (isNaN(eventId)) {
+      return res.status(400).send("Invalid event ID");
+    }
+
+    const updatedEvent = {
+      id: eventId,
+      name: req.body.name,
+      date: req.body.date,
+      time: req.body.time,
+      location: req.body.location,
+      capacity: req.body.capacity,
+      status: req.body.status,
+      description: req.body.description || null,
+      image: req.body.image || null,
+      categoryId: req.body.categoryId,
+    };
+
+    try {
+      await eventService.update(updatedEvent);
+      res.redirect("/admin/viewEvents");
+    } catch (err) {
+      console.error("Error in updateEvent:", err.message);
+      res.status(500).render("error", { message: "Failed to update event." });
+    }
+  }
+
   static async showEventForm(req, res) {
     try {
-      const cats = await categoryService.readAll(); // ← fetch categories
-      return res.render("createEvent", {
-        error: null, // ← always pass error
-        categories: cats, // ← and categories
-      });
+      const categories = await categoryService.readAll();
+      const error = req.query.error; // may be undefined
+      return res.render("createEvent", { error, categories });
     } catch (error) {
       console.error("Error rendering event form:", error);
       return res.status(500).send("Internal Server Error");
@@ -223,14 +298,9 @@ class EventController {
         categoryId,
       } = req.body;
 
-      // Normalize empty optional fields to `null`
-      if (!description || description.trim() === "") {
-        description = null;
-      }
-
-      if (!image || image.trim() === "") {
-        image = null;
-      }
+      // normalize optionals
+      if (!description?.trim()) description = null;
+      if (!image?.trim()) image = null;
 
       const event = new Event(
         0,
@@ -244,17 +314,17 @@ class EventController {
         image,
         categoryId
       );
+      await eventService.create(event);
 
-      const result = await eventService.create(event);
-
-      // On success, redirect or render success message
-      return res.redirect("/api/events/viewEvents"); 
+      // on success → redirect to listing
+      return res.redirect("/viewEvents");
     } catch (error) {
       console.error("Error during event creation:", error);
-      return res.render("createEvent.ejs", {
-        error: "Event creation failed. Please try again.",
-        categories: await categoryService.readAll(),
-      });
+      // on failure → redirect back to the form, including the error in the query string
+      const msg = encodeURIComponent(
+        "Event creation failed. Please try again."
+      );
+      return res.redirect(`/api/events/createEvent?error=${msg}`);
     }
   }
 }
