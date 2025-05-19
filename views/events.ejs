@@ -32,43 +32,46 @@
       }
 
       body {
-        background-color: rgb(33, 37, 41);
+        background-color: var(--secondary-color);
         color: #ffffff;
         font-family: "Inter", sans-serif;
+        margin: 0;
+        padding: 0;
       }
 
       h1.page-title {
         font-size: 3rem;
         font-weight: 700;
         text-align: center;
-        margin-bottom: 2rem;
-        color: white;
+        margin: 2rem 0 1rem;
+        color: var(--danger-color);
+      }
+
+      main.container {
+        padding-bottom: 3rem;
       }
 
       .category-header {
-        font-size: 1.5rem;
+        display: inline-block;
+        background: var(--danger-color);
+        color: #ffffff;
+        font-size: 1.25rem;
         font-weight: 600;
-        padding: 1rem 1.25rem;
-        background-color: var(--danger-color);
-        border-left: 5px solid var(--secondary-color);
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
         margin-bottom: 1.5rem;
-        color: white;
-      }
-
-      .events-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
       }
 
       .event-card {
-        display: flex;
-        flex-direction: column;
-        background: var(--card-bg);
+        background-color: var(--card-bg);
         border-radius: 1rem;
         overflow: hidden;
         box-shadow: var(--shadow-intense);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
       }
 
       .event-card:hover {
@@ -76,38 +79,57 @@
         box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
       }
 
-      .event-img {
+      .event-card img {
         width: 100%;
-        height: 200px;
         object-fit: cover;
       }
 
-      .event-body {
-        padding: 1.25rem;
+      @media (min-width: 992px) {
+        .event-card img {
+          height: 300px;
+        }
+      }
+      @media (max-width: 991.98px) {
+        .event-card img {
+          height: 200px;
+        }
+      }
+
+      .event-card .card-body {
+        flex: 1;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        flex-grow: 1;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 1rem 1.5rem;
+      }
+
+      .event-title,
+      .event-meta,
+      .event-description {
+        width: 100%;
       }
 
       .event-title {
-        font-size: 1.75rem;
-        font-weight: bold;
+        font-size: 1.5rem;
+        font-weight: 700;
         margin-bottom: 0.5rem;
         color: var(--secondary-color);
+        word-wrap: break-word;
       }
 
-      .event-date,
-      .event-location {
+      .event-meta {
+        font-size: 0.95rem;
+        color: var(--secondary-color);
+        margin-bottom: 0.5rem;
         display: flex;
         align-items: center;
-        font-size: 1rem;
-        color: var(--secondary-color);
-        margin-bottom: 0.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
       }
 
-      .event-date i,
-      .event-location i {
+      .event-meta i {
         margin-right: 0.5rem;
         color: var(--danger-color);
       }
@@ -115,24 +137,24 @@
       .event-description {
         font-size: 1rem;
         color: #334155;
+        line-height: 1.4;
         margin-bottom: 1rem;
       }
 
       .card-footer {
+        background: none;
+        border-top: 1px solid #e2e8f0;
+        padding: 1rem 1.5rem;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
-        padding: 1rem;
-        background-color: var(--light-gray);
-        border-radius: 0 0 1rem 1rem;
-        margin: 1rem 1.25rem 1.25rem;
         gap: 1rem;
         flex-wrap: wrap;
       }
 
       .price-badge {
         background: var(--primary-gradient);
-        color: white;
+        color: #ffffff;
         padding: 0.5rem 1rem;
         border-radius: 2rem;
         font-weight: 600;
@@ -143,7 +165,7 @@
       .btn-tickets {
         background: var(--danger-color);
         border: none;
-        color: white;
+        color: #ffffff;
         padding: 0.5rem 1.25rem;
         border-radius: 2rem;
         font-weight: 600;
@@ -156,73 +178,82 @@
         background: rgb(185, 28, 28);
       }
 
-      @media (max-width: 576px) {
-        .card-footer {
-          flex-direction: column;
-          align-items: stretch;
-        }
+      .no-events {
+        margin-top: 4rem;
+        text-align: center;
+        color: var(--light-gray);
+      }
 
-        .btn-tickets,
-        .price-badge {
-          width: 100%;
-          text-align: center;
-        }
+      .no-events i {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        color: var(--danger-color);
       }
     </style>
   </head>
 
   <body>
-    
-    <main class="container py-5 text-center text-danger">
-      <h1>Featured Events</h1>
+    <main class="container py-5">
+      <h1 class="page-title">Featured Events</h1>
 
       <% if (categories && categories.length) { %>
         <% categories.forEach(group => { %>
           <section class="mb-5">
             <h2 class="category-header"><%= group.category.name %></h2>
-            <div class="events-grid">
+
+            <div class="row gx-4 gy-4">
               <% group.events.forEach(event => { %>
-                <div class="event-card">
-                  <img
-                    src="<%= event.image %>"
-                    class="event-img"
-                  />
-                  <div class="event-body">
-                    <h3 class="event-title"><%= event.name %></h3>
-                    <div class="event-date">
-                      <i class="bi bi-calendar-event"></i>
-                      <%= new Date(event.date).toLocaleDateString() %>
+                <div class="col-12 col-md-6 col-lg-4">
+                  <div class="event-card card h-100 p-0">
+                    <img
+                      src="<%= event.image %>"
+                      alt="Event Image"
+                      class="card-img-top"
+                    />
+
+                    <div class="card-body">
+                      <h3 class="event-title"><%= event.name %></h3>
+
+                      <div class="event-meta">
+                        <i class="bi bi-calendar-event"></i>
+                        <%= new Date(event.date).toLocaleDateString() %>
+                      </div>
+                      <div class="event-meta">
+                        <i class="bi bi-geo-alt"></i>
+                        <%= event.location %>
+                      </div>
+
+                      <p class="event-description">
+                        <%= (event.description || "").substring(0, 120) %>
+                        <%= event.description && event.description.length > 120
+                          ? "..."
+                          : "" %>
+                      </p>
                     </div>
-                    <div class="event-location">
-                      <i class="bi bi-geo-alt"></i>
-                      <%= event.location %>
+
+                    <div class="card-footer">
+                      <% if (event.price) { %>
+                        <span class="price-badge">$<%= event.price %></span>
+                      <% } %>
+                      <a href="/events/<%= event.id %>" class="btn-tickets">
+                        Get Tickets
+                      </a>
                     </div>
-                    <p class="event-description">
-                      <%= (event.description || '...').substring(0, 120) %>
-                    </p>
-                  </div>
-                  <div class="card-footer">
-                    <span class="price-badge">
-                      <%= event.price ? '$' + event.price : 'Free' %>
-                    </span>
-                    <a href="/events/<%= event.id %>" class="btn-tickets">
-                      Get Tickets
-                    </a>
                   </div>
                 </div>
-              <% }) %>
+              <% }); %>
             </div>
           </section>
-        <% }) %>
+        <% }); %>
       <% } else { %>
-        <div class="text-center py-5 text-muted">
-          <i class="bi bi-calendar-x display-1 mb-3"></i>
+        <div class="no-events">
+          <i class="bi bi-calendar-x"></i>
           <p>No events available at the moment.</p>
         </div>
       <% } %>
     </main>
 
-    <%- include('partials/footer') %>
+    <%- include("partials/footer") %>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
