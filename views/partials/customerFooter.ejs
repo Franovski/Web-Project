@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Customer Footer & Icons</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
+      crossorigin="anonymous"
+    />
+
+    <!-- Bootstrap Icons (must come after Bootstrap CSS) -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        background-color: #212529; /* match bg-dark */
+        color: #fff;
+      }
+      .footer-container {
+        margin-top: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Page content would go here -->
+
+    <!-- Customer Footer Partial -->
+    <div class="container footer-container">
+      <footer class="py-3 my-4">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+          <li class="nav-item">
+            <a href="/Customer" class="nav-link px-2 text-white">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="/about" class="nav-link px-2 text-white">About</a>
+          </li>
+          <li class="nav-item">
+            <a href="/my-tickets" class="nav-link px-2 text-white">My Tickets</a>
+          </li>
+          <li class="nav-item">
+            <a href="/" class="nav-link px-2 text-danger">Logout</a>
+          </li>
+        </ul>
+        <div class="d-flex justify-content-center mb-3">
+          <a
+            href="https://www.instagram.com/"
+            target="_blank"
+            class="me-3 text-white"
+            aria-label="Instagram"
+          >
+            <i class="bi bi-instagram" style="font-size: 1.5rem"></i>
+          </a>
+          <a
+            href="https://www.facebook.com/"
+            target="_blank"
+            class="text-white"
+            aria-label="Facebook"
+          >
+            <i class="bi bi-facebook" style="font-size: 1.5rem"></i>
+          </a>
+        </div>
+        <p class="text-center text-white">
+          © <%= new Date().getFullYear() %> TicketHaven by Franovski. All rights
+          reserved.
+        </p>
+      </footer>
+    </div>
+    <!-- /Customer Footer Partial -->
+
+    <!-- Optional Bootstrap JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ho+j7jyWK8fNQe+A12hVt6U3s9Q8wlJ/RkdIDI0vQzktJFl/uOyy6I7/j4scv6p1"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

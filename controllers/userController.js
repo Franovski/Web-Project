@@ -284,18 +284,59 @@ class UserController {
   static async changePassword(req, res) {
     try {
       const { email, oldPassword, newPassword } = req.body;
+
+      // 1. Ensure all fields are present
+      if (!email || !oldPassword || !newPassword) {
+        return res.status(400).render("changePassword", {
+          user: { email },
+          error: "Email, current password, and new password are all required.",
+          success: null,
+        });
+      }
+
+      // 2. Check that the user exists
       const user = await userService.readUserByEmail(email);
-      const result = await userService.changePassword(
-        email,
-        oldPassword,
-        newPassword
-      );
-      return res
-        .status(200)
-        .json({ message: `Password changed successfully`, result: result });
+      if (!user) {
+        return res.status(404).render("changePassword", {
+          user: { email },
+          error: `No account found for ${email}.`,
+          success: null,
+        });
+      }
+
+      // 3. Attempt to change the password
+      await userService.changePassword(email, oldPassword, newPassword);
+
+      // 4. If we reach here, it succeeded – re‐render with a success message
+      return res.render("changePassword", {
+        user: { email: "" },                 // clear the email field (optional)
+        error: null,
+        success: "Password changed successfully.",
+      });
     } catch (err) {
-      console.error("Error in UserController.changePassword: ", err.message);
-      return res.status(500).json({ message: err.message });
+      // 5. If old‐password was wrong, or any “expected” error
+      if (err.message.includes("Old password is incorrect")) {
+        return res.status(400).render("changePassword", {
+          user: { email: req.body.email },
+          error: "Current password is incorrect.",
+          success: null,
+        });
+      }
+      if (err.message.includes("does not exist")) {
+        return res.status(404).render("changePassword", {
+          user: { email: req.body.email },
+          error: err.message, // e.g. “User with email … does not exist”
+          success: null,
+        });
+      }
+
+      // 6. Otherwise, this is unexpected – log and show a generic message
+      console.error("Error in UserController.changePassword:", err);
+      return res.status(500).render("changePassword", {
+        user: { email: req.body.email },
+        error: "Something went wrong. Please try again later.",
+        success: null,
+      });
     }
   }
 

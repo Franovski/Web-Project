@@ -51,6 +51,26 @@ app.get("/Admin", (req, res) => {
     }
 });
 
+app.get("/Customer", (req, res) => {
+    try{
+    res.render("customerView.ejs");
+    }
+    catch (error) {
+        console.error("Error rendering customer page:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+app.get("/changePassword", (req, res) => {
+    try{
+    res.render("changePassword.ejs");
+    }
+    catch (error) {
+        console.error("Error rendering change password page:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

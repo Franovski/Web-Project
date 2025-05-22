@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TicketHaven - Customer</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
+      crossorigin="anonymous"
+    />
+
+    <style>
+      @media (max-width: 768px) {
+        .hero-section {
+          height: 50vh !important;
+        }
+        .hero-section h1 {
+          font-size: 2rem !important;
+        }
+        .hero-section p {
+          font-size: 1rem !important;
+        }
+      }
+
+      /* Enhanced Event Cards (Glassmorphism Style) */
+      .event-glass-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .event-glass-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+      }
+
+      .event-img-wrapper {
+        position: relative;
+        height: 220px;
+        overflow: hidden;
+      }
+
+      .event-img-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.8);
+      }
+
+      .event-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: #dc3545;
+        color: white;
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 12px;
+        z-index: 2;
+      }
+
+      .event-glass-body {
+        padding: 1.5rem;
+        color: #f8f9fa;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .event-glass-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .event-glass-date {
+        font-size: 0.95rem;
+        color: #ffc107;
+        margin-bottom: 0.75rem;
+      }
+
+      .event-glass-description {
+        font-size: 1rem;
+        color: #ced4da;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body class="bg-dark">
+    <!-- Customer Header & Navigation -->
+    <%- include('partials/customerHeader') %>
+
+    <main>
+      <div class="container my-5">
+        <div class="row justify-content-center p-4 pt-lg-5 align-items-center hero-section">
+          <div class="col-lg-8 p-3 p-lg-5 pt-lg-3 text-center">
+            <h1 class="display-4 fw-bold lh-1 text-danger">
+              Discover Live Events
+            </h1>
+            <p class="lead text-secondary">
+              Explore concerts, theater shows, and sporting events. Get your
+              tickets directly from the official source with TicketHaven.
+            </p>
+            <div class="d-grid gap-2 justify-content-center mb-4 mb-lg-3">
+              <a
+                href="/viewEvents"
+                class="btn btn-outline-danger btn-lg px-4 fw-bold"
+              >
+                Browse Events
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- START Enhanced Upcoming Events Section -->
+      <div class="container pb-5">
+        <h2 class="text-center text-light mb-5">Upcoming Events</h2>
+        <div class="row g-4">
+          <!-- Event 1 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="event-glass-card">
+              <div class="event-img-wrapper">
+                <img
+                  src="/images/photo-1459749411175-04bf5292ceea.jpg"
+                  alt="Music Concert"
+                />
+                <span class="event-badge">Featured</span>
+              </div>
+              <div class="event-glass-body">
+                <h5 class="event-glass-title">Summer Beats Festival</h5>
+                <p class="event-glass-date">Coming Soon</p>
+                <p class="event-glass-description">
+                  A night of live performances from top artists and DJs under
+                  the stars. Don’t miss it!
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Event 2 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="event-glass-card">
+              <div class="event-img-wrapper">
+                <img
+                  src="/images/HD-wallpaper-museum-of-art-visitors-museum-exhibition-art-paintings.jpg"
+                  alt="Art Exhibition"
+                />
+              </div>
+              <div class="event-glass-body">
+                <h5 class="event-glass-title">Art & Soul Exhibition</h5>
+                <p class="event-glass-date">Coming Soon</p>
+                <p class="event-glass-description">
+                  Explore stunning contemporary art from global creators in this
+                  visual showcase.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Event 3 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="event-glass-card">
+              <div class="event-img-wrapper">
+                <img
+                  src="/images/alexandre-pellaes-6vajp0pscx0-unsplash-1-1.jpg"
+                  alt="Tech Conference"
+                />
+              </div>
+              <div class="event-glass-body">
+                <h5 class="event-glass-title">FutureTech Conference</h5>
+                <p class="event-glass-date">Coming Soon</p>
+                <p class="event-glass-description">
+                  Join tech leaders and visionaries to discuss tomorrow’s
+                  innovations today.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END Enhanced Upcoming Events Section -->
+    </main>
+
+    <!-- Footer -->
+    <%- include('partials/customerFooter') %>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      // Optional: Reveal effect on scroll
+      const cards = document.querySelectorAll(".event-glass-card");
+
+      window.addEventListener("scroll", () => {
+        cards.forEach((card) => {
+          const rect = card.getBoundingClientRect();
+          if (rect.top <= window.innerHeight - 100) {
+            card.classList.add("visible");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

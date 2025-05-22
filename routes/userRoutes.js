@@ -32,7 +32,7 @@ router.get('/signin', UserController.showLoginForm);
 router.post('/signin', validateUserLogin, UserController.loginForm);
 router.get('/signup', UserController.showSignupForm);
 router.post('/signup', validateUser, UserController.signupForm);
-router.put('/password/', validateUserChangePassword, UserController.changePassword);
+router.post('/password', validateUserChangePassword, UserController.changePassword);
 router.put('/:id', validateUserById, validateUpdateUser, UserController.update);
 router.delete('/:id', validateUserById, UserController.delete);
 
