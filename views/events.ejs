@@ -235,7 +235,7 @@
                       <% if (event.price) { %>
                         <span class="price-badge">$<%= event.price %></span>
                       <% } %>
-                      <a href="/events/<%= event.id %>" class="btn-tickets">
+                      <a href="api/tickets/tickets/event/<%= event.id %>" class="btn-tickets">
                         Get Tickets
                       </a>
                     </div>

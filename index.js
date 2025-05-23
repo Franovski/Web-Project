@@ -8,6 +8,7 @@ const pool = require("./config/db");
 const ejs = require("ejs");
 const UserController = require("./controllers/userController");
 const EventController = require("./controllers/eventController");
+const TicketController = require("./controllers/ticketController");
 const PORT = process.env.PORT;
 
 app.use(cors());
@@ -19,7 +20,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.use('/', require('./routes/authRoutes'));
 app.use("/api/categories", require("./routes/categoryRoutes"));
 app.use("/api/events", require("./routes/eventRoutes"));
-app.use("/api/prices", require("./routes/priceRoutes"));
 app.use("/api/sections", require("./routes/sectionRoutes"));
 app.use("/api/tickets", require("./routes/ticketRoutes"));
 app.use("/api/transactions", require("./routes/transactionRoutes"));
@@ -40,6 +40,7 @@ app.get('/createEvent', EventController.createEventForm)
 app.get('/viewCustomers', UserController.loadCustomersView);
 app.get('/viewEvents', EventController.loadEventsView);
 app.get('/menageEvents', EventController.loadAdminEvents);
+app.get('/viewTickets', TicketController.loadTicketsView);
 
 app.get("/Admin", (req, res) => {
     try{
@@ -67,16 +68,6 @@ app.get("/changePassword", (req, res) => {
     }
     catch (error) {
         console.error("Error rendering change password page:", error);
-        res.status(500).send("Internal Server Error");
-    }
-});
-
-app.get("/Tickets", (req, res) => {
-    try{
-    res.render("tickets.ejs");
-    }
-    catch (error) {
-        console.error("Error rendering tickets page:", error);
         res.status(500).send("Internal Server Error");
     }
 });

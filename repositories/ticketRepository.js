@@ -13,12 +13,12 @@ class TicketRepository{
 
         try{
             let sql = `INSERT INTO ticket
-            (ticket_status, seat_number, purchase_date, expiry_date, qr_code, section_id, user_id, event_id)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+            (ticket_status, ticket_price, seat_number, purchase_date, expiry_date, qr_code, section_id, user_id, event_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
             const expiryDateFormatted = await Utils.formatDateSQL(ticket.expiryDate);
             const purchaseDateFormatted = await Utils.formatDateSQL(ticket.purchaseDate);
             const {affectedRows, insertId} =
-            await db.query(sql, [ticket.status, ticket.seatNumber, purchaseDateFormatted, expiryDateFormatted,
+            await db.query(sql, [ticket.status, ticket.price, ticket.seatNumber, purchaseDateFormatted, expiryDateFormatted,
                 ticket.qrCode, ticket.sectionId, ticket.userId, ticket.eventId]); 
             return {
                 affectedRows, 
@@ -38,13 +38,13 @@ class TicketRepository{
     static async update(ticket){
         try{
             let sql = `UPDATE ticket
-            SET ticket_status = ?, seat_number = ?, purchase_date = ?, expiry_date = ?, qr_code = ?,
+            SET ticket_status = ?, ticket_price = ?, seat_number = ?, purchase_date = ?, expiry_date = ?, qr_code = ?,
             section_id = ?, user_id = ?, event_id = ?
             WHERE ticket_id = ?`;
             const expiryDateFormatted = await Utils.formatDateSQL(ticket.expiryDate);
             const purchaseDateFormatted = await Utils.formatDateSQL(ticket.purchaseDate);
             const {affectedRows} =
-            await db.query(sql, [ticket.status, ticket.seatNumber, purchaseDateFormatted, expiryDateFormatted,
+            await db.query(sql, [ticket.status, ticket.price, ticket.seatNumber, purchaseDateFormatted, expiryDateFormatted,
                 ticket.qrCode, ticket.sectionId, ticket.userId, ticket.eventId, ticket.id]);
             return {affectedRows};
         }catch(err){
@@ -112,6 +112,16 @@ class TicketRepository{
             let sql = `SELECT * FROM ticket
             WHERE ticket_status = ?`;
             const rows = await db.query(sql, [status]);
+            return rows.map(row => Ticket.fromRow(row));
+        }catch(err){
+            throw new Error(err);
+        }
+    }
+
+    static async readTicketByEventId(eventId){
+        try{
+            let sql = `SELECT * FROM ticket WHERE event_id = ?`;
+            const rows = await db.query(sql, [eventId]);
             return rows.map(row => Ticket.fromRow(row));
         }catch(err){
             throw new Error(err);

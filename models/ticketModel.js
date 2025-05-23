@@ -1,7 +1,8 @@
 class Ticket{
-    constructor(id,status,seatNumber,purchaseDate,expiryDate,qrCode,sectionId,userId,eventId){
+    constructor(id,status,price,seatNumber,purchaseDate,expiryDate,qrCode,sectionId,userId,eventId){
         this.id = id;
         this.status = status;
+        this.price = price;
         this.seatNumber = seatNumber;
         this.purchaseDate = purchaseDate;
         this.expiryDate = expiryDate;
@@ -15,6 +16,7 @@ class Ticket{
         return new Ticket(
             row.ticket_id,
             row.ticket_status,
+            row.ticket_price,
             row.seat_number,
             row.purchase_date,
             row.expiry_date,

@@ -196,7 +196,6 @@ class EventController {
     }
   }
 
-  // controllers/eventController.js
   static async loadAdminEvents(req, res) {
     try {
       const cats = await categoryService.readAll();

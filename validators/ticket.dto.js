@@ -6,6 +6,11 @@ const validateTicket = [
     .withMessage('status must be Available or Unavailable')
     .notEmpty()
     .withMessage('status is required'),
+    body('price')
+    .isString()
+    .withMessage('price must be a string')
+    .notEmpty()
+    .withMessage('price is required'),
     body('seatNumber')
     .isString()
     .withMessage('seatNumber must be string')

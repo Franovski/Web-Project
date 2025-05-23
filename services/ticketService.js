@@ -210,6 +210,24 @@ class TicketService {
             throw new Error(`Failed to read tickets by status: ${err.message}`);
         }    
     }
+
+    static async readTicketByEventId(eventId){
+        try{
+            // Fetch the ticket by event id
+            const tickets = await TicketRepository.readTicketByEventId(eventId);
+    
+            // Convert BigInt fields (if any) to strings before returning
+            const ticketsWithSafeBigInts = JSON.parse(
+                JSON.stringify(tickets, (key, value) =>
+                    typeof value === 'bigint' ? value.toString() : value
+                )
+            );
+    
+            return ticketsWithSafeBigInts;
+        }catch(err){
+            throw new Error(`Failed to read tickets by event id: ${err.message}`);
+        }
+    }
 }
 
 module.exports = TicketService;

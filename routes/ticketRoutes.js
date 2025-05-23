@@ -6,6 +6,7 @@ const router = express.Router();
 router.get('/', TicketController.readAll);
 router.get('/:id', validateTicketById, TicketController.readTicketById);
 router.get('/status/:status', validateTicketByStatus, TicketController.readTicketByStatus);
+router.get('/tickets/event/:eventId', TicketController.loadTicketsByEvent);
 router.post('/', validateTicket, TicketController.create);
 router.put('/:id', validateTicketById, validateTicket, TicketController.update);
 router.delete('/:id', validateTicketById, TicketController.delete);
