@@ -12,27 +12,30 @@ Ensure you have the following installed on your system:
 ## 📂 Project Structure
 ```
 /project-root
-│── config                    # Configuration files
-│── controllers               # Request handlers
-│── models                    # ODM models
-│── qr_codes                  # where the qr code images are generated
-│── repositories              # Database access layer
-│── routes                    # API route definitions
-│── services                  # Business logic
-│── utils                     # Helper functions
-│── validators                # Request validation logic
-│── .env                      # Environment variables
-│── .gitignore                # Git ignored files
-│── index.js                  # Application entry point
-│── package.json              # Node.js dependencies
-│── README.md                 # Documentation
-│── TicketingBoxOffice.sql    # Database schema
+│── /config                 # Configuration files
+│── /public                 # public files
+│── /models                 # ORM/ODM models
+│── /repositories           # Database access layer
+│── /services               # Business logic
+│── /controllers            # Request handlers
+│── /validators             # Request validation logic
+│── /routes                 # API route definitions
+│── /views                  # Template files            
+│   ├── partials/           # Reusable components
+│── /utils                  # Helper functions
+│── .env                    # Environment variables
+│── .gitignore              # Git ignored files
+│── TicketingBoxOffice.sql  # Database schema
+│── index.js                # Application entry point
+│── package.json            # Node.js dependencies
+│── README.md               # Documentation
 ```
 
 ## 🚀 Installation & Setup
 1. **Clone the repository**
    ```
    git clone https://github.com/Franovski/Web-Project
+
    cd Web-Project
    ```
 
@@ -93,18 +96,14 @@ Ensure you have the following installed on your system:
 | GET    | /api/events/status/:status   | Get event by status    |
 | GET    | /api/events/category/:categoryId   | Get event by category ID   |
 | GET    | /api/events/date/:id   | Get event date by ID   |
+| GET    | /api/events/viewEvents         | load Events View     |
+| GET    | /api/events/createEvent        | show Event Form    |
+| GET    | /api/events/admin/viewEvents         | load Admin Events view     |
+| GET    | /api/events/editEvent/:id         | load Edit Event Page    |
+| POST   | /api/events/createEvent        | create Event Form  |
 | POST   | /api/events/        | Create a new event  |
 | PUT    | /api/events/:id     | Update event      |
 | DELETE | /api/events/:id     | Delete event      |
-
-### Price Routes
-| Method | Endpoint        | Description         |
-|--------|----------------|---------------------|
-| GET    | /api/prices/         | Get all prices      |
-| GET    | /api/prices/:id     | Get price by ID     |
-| POST   | /api/prices/        | Create a new price  |
-| PUT    | /api/prices/:id     | Update price       |
-| DELETE | /api/prices/:id     | Delete price      |
 
 ### Section Routes
 | Method | Endpoint        | Description         |
@@ -123,6 +122,7 @@ Ensure you have the following installed on your system:
 | GET    | /api/tickets/         | Get all tickets      |
 | GET    | /api/tickets/:id     | Get ticket by ID     |
 | GET    | /api/tickets/status/:status    | Get ticket by status     |
+| GET    | /api/tickets/tickets/event/:eventId    | Get ticket by event id     |
 | POST   | /api/tickets/        | Create a new ticket  |
 | PUT    | /api/tickets/:id     | Update ticket       |
 | DELETE | /api/tickets/:id     | Delete ticket      |
@@ -149,10 +149,16 @@ Ensure you have the following installed on your system:
 | GET    | /api/users/ticket/:id    | Get user tickets by ID   |
 | GET    | /api/users/role/:role    | Get user by role    |
 | GET    | /api/users/roleById/:id   | Get user role by ID    |
+| GET    | /api/users/viewCustomers  | load Customers View    |
+| GET    | /api/users/editCustomer/:id   | load Customer Edit Form    |
+| GET    | /api/users/signin   | show Login Form    |
+| GET    | /api/users/signup   | show Signup Form   |
+| POST   | /api/users/updateCustomer/:id        | update Customer  |
+| POST   | /api/users/signin        | create login Form  |
+| POST   | /api/users/signup        | create sign up Form |
+| POST    | /api/users/password/:email     | Change password     |
 | POST   | /api/users/        | Create a new user  |
-| POST   | /api/users/login       | Logging in to the user  |
 | PUT    | /api/users/:id     | Update user        |
-| PUT    | /api/users/password/:email     | Change password     |
 | DELETE | /api/users/:id     | Delete user        |
 
 ## 🛠 Technologies Used
@@ -164,9 +170,12 @@ Ensure you have the following installed on your system:
 - **bcrypt** - Password hashing
 - **jsonwebtoken** - Token generator and authentication
 - **moment** - Date and Time handling library
-- **qr-image** - generate image for the qr code
+- **qr-image** - Generate image for the qr code
 - **inquirer** - create interactive command-line user interfaces
-- **fs** - generates the qr_code folder and stores the images in it
+- **fs** - Generates the qr_code folder and stores the images in it
+- **html** - Contains the structure of the web pages using standard HTML syntax
+- **css** - Contains stylesheets used to style the HTML content
+- **ejs** - Contains EJS templates used to render dynamic content on the server side
 
 ## 🔍 Best Practices Followed
 ✔️ Follows MVC architecture  
