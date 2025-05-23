@@ -71,6 +71,16 @@ app.get("/changePassword", (req, res) => {
     }
 });
 
+app.get("/Tickets", (req, res) => {
+    try{
+    res.render("tickets.ejs");
+    }
+    catch (error) {
+        console.error("Error rendering tickets page:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

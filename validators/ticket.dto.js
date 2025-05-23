@@ -2,8 +2,8 @@ const {body, param, validationResult} = require('express-validator');
 
 const validateTicket = [
     body('status')
-    .isIn(['Purchased', 'Refunded'])
-    .withMessage('status must be Purchased or Refunded')
+    .isIn(['Available', 'Unavailable'])
+    .withMessage('status must be Available or Unavailable')
     .notEmpty()
     .withMessage('status is required'),
     body('seatNumber')
@@ -62,7 +62,7 @@ const validateTicketById = [
 ]
 
 const validateTicketByStatus = [
-    param('status').isIn(['Purchased', 'Refunded']).withMessage('The status must be Purchased or Refunded'),
+    param('status').isIn(['Available', 'Unavailable']).withMessage('The status must be Available or Unavailable'),
     (req, res, next) => {
         const errors= validationResult(req);
         if (!errors.isEmpty()) {
